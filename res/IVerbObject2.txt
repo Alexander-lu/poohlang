@@ -1,0 +1,5 @@
+<sentence>
+├── I: I
+├── VERB: love
+└── <object>
+    └── PRONOUN: her

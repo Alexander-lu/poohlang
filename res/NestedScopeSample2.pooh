@@ -1,0 +1,14 @@
+func bar ( m ) {
+  a = m + 1
+  a = a + a
+  return a
+}
+
+func foo ( n ) {
+  a = 10
+  b = call bar ( a )
+  print a
+  return b
+}
+
+print call foo ( 6 )

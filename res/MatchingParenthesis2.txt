@@ -1,0 +1,12 @@
+<matching-parenthesis>
+├── LEFT_PAR: (
+├── <matching-parenthesis>
+│   └── EPSILON
+├── RIGHT_PAR: )
+└── <matching-parenthesis>
+    ├── LEFT_PAR: (
+    ├── <matching-parenthesis>
+    │   └── EPSILON
+    ├── RIGHT_PAR: )
+    └── <matching-parenthesis>
+        └── EPSILON

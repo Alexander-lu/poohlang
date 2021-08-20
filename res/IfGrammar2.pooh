@@ -1,0 +1,13 @@
+myScore = 80
+distinction = 85
+pass = 60
+failed = 0
+if ( myScore < pass ) {
+  print failed
+} else {
+  if ( myScore < distinction ) {
+    print pass
+  } else {
+    print distinction
+  }
+}

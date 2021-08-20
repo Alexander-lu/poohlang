@@ -1,0 +1,9 @@
+func makeAdder ( x ) {
+  adder = func ( n ) {
+    return n + x
+  }
+  return adder
+}
+
+add5 = call makeAdder ( 5 )
+print call add5 ( -2 )

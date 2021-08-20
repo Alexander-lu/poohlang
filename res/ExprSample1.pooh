@@ -1,0 +1,7 @@
+sum = -1 + -2 + -3 + -4
+sum = sum + 10 + 7
+if ( 7 == sum ) {
+  print sum
+} else {
+  print -1
+}

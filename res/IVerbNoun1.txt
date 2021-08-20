@@ -1,0 +1,4 @@
+<sentence>
+├── I: I
+├── VERB: love
+└── NOUN: Java

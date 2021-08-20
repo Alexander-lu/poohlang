@@ -1,0 +1,15 @@
+func fib ( n ) {
+  res = 0
+  if ( n == 0 ) {
+    res = 0
+  } else {
+    if ( n == 1 ) {
+      res = 1
+    } else {
+      res = call fib ( n + -1 ) + call fib ( n + -2 )
+    }
+  }
+  return res
+}
+
+print call fib ( 7 )

@@ -1,0 +1,10 @@
+func mult ( m , n ) {
+  res = 0
+  while ( 0 < m ) {
+    res = res + n
+    m = m + -1
+  }
+  return res
+}
+
+print call mult ( 3 , 5 )

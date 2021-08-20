@@ -1,0 +1,81 @@
+<program>
+├── <statement>
+│   └── <assign-statement>
+│       ├── ID: myScore
+│       ├── EQUAL: =
+│       └── NUMBER: 80
+└── <program>
+    ├── <statement>
+    │   └── <assign-statement>
+    │       ├── ID: distinction
+    │       ├── EQUAL: =
+    │       └── NUMBER: 85
+    └── <program>
+        ├── <statement>
+        │   └── <assign-statement>
+        │       ├── ID: pass
+        │       ├── EQUAL: =
+        │       └── NUMBER: 60
+        └── <program>
+            ├── <statement>
+            │   └── <assign-statement>
+            │       ├── ID: failed
+            │       ├── EQUAL: =
+            │       └── NUMBER: 0
+            └── <program>
+                ├── <statement>
+                │   └── <if-statement>
+                │       ├── KEYWORD_IF: if
+                │       ├── LEFT_PAR: (
+                │       ├── ID: myScore
+                │       ├── LESS_THAN: <
+                │       ├── ID: pass
+                │       ├── RIGHT_PAR: )
+                │       ├── <block>
+                │       │   ├── LEFT_BRACE: {
+                │       │   ├── <program>
+                │       │   │   ├── <statement>
+                │       │   │   │   └── <print-statement>
+                │       │   │   │       ├── KEYWORD_PRINT: print
+                │       │   │   │       └── ID: failed
+                │       │   │   └── <program>
+                │       │   │       └── EPSILON
+                │       │   └── RIGHT_BRACE: }
+                │       ├── KEYWORD_ELSE: else
+                │       └── <block>
+                │           ├── LEFT_BRACE: {
+                │           ├── <program>
+                │           │   ├── <statement>
+                │           │   │   └── <if-statement>
+                │           │   │       ├── KEYWORD_IF: if
+                │           │   │       ├── LEFT_PAR: (
+                │           │   │       ├── ID: myScore
+                │           │   │       ├── LESS_THAN: <
+                │           │   │       ├── ID: distinction
+                │           │   │       ├── RIGHT_PAR: )
+                │           │   │       ├── <block>
+                │           │   │       │   ├── LEFT_BRACE: {
+                │           │   │       │   ├── <program>
+                │           │   │       │   │   ├── <statement>
+                │           │   │       │   │   │   └── <print-statement>
+                │           │   │       │   │   │       ├── KEYWORD_PRINT: print
+                │           │   │       │   │   │       └── ID: pass
+                │           │   │       │   │   └── <program>
+                │           │   │       │   │       └── EPSILON
+                │           │   │       │   └── RIGHT_BRACE: }
+                │           │   │       ├── KEYWORD_ELSE: else
+                │           │   │       └── <block>
+                │           │   │           ├── LEFT_BRACE: {
+                │           │   │           ├── <program>
+                │           │   │           │   ├── <statement>
+                │           │   │           │   │   └── <print-statement>
+                │           │   │           │   │       ├── KEYWORD_PRINT: print
+                │           │   │           │   │       └── ID: distinction
+                │           │   │           │   └── <program>
+                │           │   │           │       └── EPSILON
+                │           │   │           └── RIGHT_BRACE: }
+                │           │   └── <program>
+                │           │       └── EPSILON
+                │           └── RIGHT_BRACE: }
+                └── <program>
+                    └── EPSILON

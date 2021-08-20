@@ -1,0 +1,4 @@
+inc = func ( x ) { return x + 1 }
+
+print call inc ( 3 )
+print call inc ( 9 )

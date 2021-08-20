@@ -1,0 +1,4 @@
+<sentence>
+├── I: I
+├── VERB: hate
+└── NOUN: Java

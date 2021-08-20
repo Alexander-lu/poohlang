@@ -1,0 +1,12 @@
+a = 1
+
+func addA ( n ) {
+  return n + a
+}
+
+func f ( m ) {
+  a = 5
+  return call addA ( m )
+}
+
+print call f ( 3 )

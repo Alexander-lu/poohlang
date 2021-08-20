@@ -1,0 +1,44 @@
+<program>
+├── <statement>
+│   └── <assign-statement>
+│       ├── ID: a
+│       ├── EQUAL: =
+│       └── NUMBER: 9
+└── <program>
+    ├── <statement>
+    │   └── <assign-statement>
+    │       ├── ID: b
+    │       ├── EQUAL: =
+    │       └── NUMBER: 12
+    └── <program>
+        ├── <statement>
+        │   └── <if-statement>
+        │       ├── KEYWORD_IF: if
+        │       ├── LEFT_PAR: (
+        │       ├── ID: a
+        │       ├── LESS_THAN: <
+        │       ├── ID: b
+        │       ├── RIGHT_PAR: )
+        │       ├── <block>
+        │       │   ├── LEFT_BRACE: {
+        │       │   ├── <program>
+        │       │   │   ├── <statement>
+        │       │   │   │   └── <print-statement>
+        │       │   │   │       ├── KEYWORD_PRINT: print
+        │       │   │   │       └── ID: a
+        │       │   │   └── <program>
+        │       │   │       └── EPSILON
+        │       │   └── RIGHT_BRACE: }
+        │       ├── KEYWORD_ELSE: else
+        │       └── <block>
+        │           ├── LEFT_BRACE: {
+        │           ├── <program>
+        │           │   ├── <statement>
+        │           │   │   └── <print-statement>
+        │           │   │       ├── KEYWORD_PRINT: print
+        │           │   │       └── ID: b
+        │           │   └── <program>
+        │           │       └── EPSILON
+        │           └── RIGHT_BRACE: }
+        └── <program>
+            └── EPSILON

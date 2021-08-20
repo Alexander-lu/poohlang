@@ -1,0 +1,15 @@
+func counter ( c ) {
+  f = func ( ) {
+    c = c + 1
+    print c
+    return c
+  }
+  return f
+}
+
+c1 = call counter ( 0 )
+c2 = call counter ( 0 )
+
+call c1 ( )
+call c1 ( )
+call c2 ( )
