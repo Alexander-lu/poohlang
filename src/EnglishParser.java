@@ -1,5 +1,4 @@
 import lib.Parser;
-import lib.PrintHelper;
 import lib.Token;
 import lib.ast.ASTNode;
 import lib.ast.InnerNode;
@@ -17,6 +16,15 @@ public class EnglishParser {
   }
 
   public ASTNode parseMatchingParenthesis(List<Token> tokens) {
-    return null;
+    var englishParser = new Parser("<matching-parenthesis>");
+    englishParser.terminal("LEFT_PAR");
+    englishParser.terminal("RIGHT_PAR");
+    englishParser.orEpsilon();
+    InnerNode parse = (InnerNode)englishParser.parse(tokens);
+//    if (parseMatchingParenthesis(tokens)) {
+//    }
+    parse.addChild(parseMatchingParenthesis(tokens));
+    parse.addChild(parseMatchingParenthesis(tokens));
+    return parse;
   }
 }
