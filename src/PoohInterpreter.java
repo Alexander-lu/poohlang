@@ -8,6 +8,7 @@ import java.util.Map;
 
 public class PoohInterpreter {
   Map<String,Integer> mapStore = new HashMap<>();
+  Map<String,ASTNode> mapFuncStore = new HashMap<>();
   /**
    * 运行一个POOH程序
    *
@@ -207,6 +208,18 @@ public class PoohInterpreter {
           if (term.getTokenTag().equals("ID")) {
             System.out.println(mapStore.get(term.getTokenText()));
           }
+          if (term.getTokenTag().equals("<function-call>")) {
+//            System.out.println(mapStore.get(term.getTokenText()));
+          }
+        }
+        if (wwName.getAstName().equals("<function-def>")) {
+          LeafNode funcID = (LeafNode)wwName.getChild(1);
+          mapFuncStore.put(funcID.getTokenText(),wwName);
+        }
+        if (wwName.getAstName().equals("<function-call>")) {
+          Map<String,Integer> fucStore = new HashMap<>();
+          LeafNode ID = (LeafNode) wwName.getChild(1);
+          InnerNode arglist = (InnerNode) wwName.getChild(3);
         }
       }
     }

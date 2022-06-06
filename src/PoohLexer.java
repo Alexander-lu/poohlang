@@ -50,6 +50,14 @@ public class PoohLexer {
             tokenlist.add(new Token("KEYWORD_IF",scStr));
           }else if(scStr.equals("else")){
             tokenlist.add(new Token("KEYWORD_ELSE",scStr));
+          }else if(scStr.equals("call")){
+            tokenlist.add(new Token("KEYWORD_CALL",scStr));
+          }else if(scStr.equals(",")){
+            tokenlist.add(new Token("COMMA",scStr));
+          }else if(scStr.equals("func")){
+            tokenlist.add(new Token("KEYWORD_FUNC",scStr));
+          }else if(scStr.equals("return")){
+            tokenlist.add(new Token("KEYWORD_RETURN",scStr));
           }else {
             tokenlist.add(new Token("ID",scStr));
           }
