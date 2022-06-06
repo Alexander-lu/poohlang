@@ -21,8 +21,10 @@ public class PoohParser {
     var expr = new Parser("<expr>");
     var term = new Parser("<term>");
     var moreTerms = new Parser("<more-terms>");
+    var whilestatement = new Parser("<while-statement>");
     program.nonTerminal(statement).nonTerminal(program).orEpsilon();
-    statement.nonTerminal(printStatement).or().nonTerminal(assignStatement).or().nonTerminal(ifStatement);
+    statement.nonTerminal(printStatement).or().nonTerminal(assignStatement).or().nonTerminal(ifStatement).or().nonTerminal(whilestatement);
+    whilestatement.terminal("KEYWORD_WHILE").terminal("LEFT_PAR").nonTerminal(expr).terminal("RIGHT_PAR").nonTerminal(block);
     expr.nonTerminal(term).nonTerminal(moreTerms);
     moreTerms.terminal("PLUS").nonTerminal(expr).or().terminal("LESS_THAN").nonTerminal(term).or().terminal("EQUAL_TEST").nonTerminal(term).orEpsilon();
     term.terminal("NUMBER").or().terminal("ID");

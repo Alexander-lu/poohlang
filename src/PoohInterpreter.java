@@ -118,6 +118,86 @@ public class PoohInterpreter {
             }
           }
         }
+        if (wwName.getAstName().equals("<while-statement>")) {
+          int countttttt = 0;
+          int lefttgrement =0;
+          int minddle = 0;
+          int rightgrement =0;
+          int left = 0;
+          String leftstring = null;
+          int rightnumber = 0;
+          String rightstring = null;
+          InnerNode expr = (InnerNode) wwName.getChild(2);
+          LeafNode numberorid = (LeafNode)expr.getChild(0).getChild(0);
+          if (numberorid.getTokenTag().equals("NUMBER")) {
+            left = Integer.parseInt(numberorid.getTokenText());
+            lefttgrement = 1;
+          }
+          if (numberorid.getTokenTag().equals("ID")) {
+            leftstring = numberorid.getTokenText();
+            lefttgrement = 2;
+          }
+          InnerNode exprmoreterm = (InnerNode) expr.getChild(1);
+          try {
+            LeafNode exprmoretermleafnode = (LeafNode) exprmoreterm.getChild(0);
+          }catch (Exception e){
+            break;
+          }
+          LeafNode exprmoretermleafnode = (LeafNode) exprmoreterm.getChild(0);
+          if(exprmoretermleafnode.getTokenTag().equals("LESS_THAN")){
+            minddle=1;
+          }
+          if(exprmoretermleafnode.getTokenTag().equals("EQUAL_TEST")){
+            minddle=2;
+          }
+          LeafNode exprmoretermsexper00 = (LeafNode) exprmoreterm.getChild(1).getChild(0);
+          if(exprmoretermsexper00.getTokenTag().equals("ID")){
+            rightgrement = 1;
+            rightstring = exprmoretermsexper00.getTokenText();
+          }
+          if(exprmoretermsexper00.getTokenTag().equals("NUMBER")){
+            rightgrement =2;
+            rightnumber= Integer.parseInt(exprmoretermsexper00.getTokenText());
+          }
+          if(lefttgrement == 2){
+            if (minddle == 1) {
+              if (rightgrement == 2) {
+                  while( mapStore.get(leftstring)<rightnumber){
+                    run(wwName.getChild(4));
+                  }
+              }
+              if (rightgrement == 1) {
+                while(mapStore.get(leftstring)<mapStore.get(rightstring)){
+                  run(wwName.getChild(4));
+                }
+              }
+            }
+            if (minddle == 2) {
+              if (rightgrement == 2) {
+                while( mapStore.get(leftstring)==rightnumber){
+                  run(wwName.getChild(4));
+                }
+              }
+              if (rightgrement == 1) {
+                while(mapStore.get(leftstring).equals(mapStore.get(rightstring))){
+                  run(wwName.getChild(4));
+                }
+              }
+            }
+          }
+          if(lefttgrement == 1){
+            if(minddle == 1 ){
+              while( left<mapStore.get(rightstring)){
+                run(wwName.getChild(4));
+              }
+            }
+            if(minddle == 2 ){
+              while( left==mapStore.get(rightstring)){
+                run(wwName.getChild(4));
+              }
+            }
+          }
+        }
         if(wwName.getAstName().equals("<print-statement>")){
           InnerNode expr = (InnerNode) wwName.getChild(1);
           LeafNode term = (LeafNode)expr.getChild(0).getChild(0);
