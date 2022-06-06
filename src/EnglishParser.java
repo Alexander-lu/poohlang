@@ -11,7 +11,7 @@ public class EnglishParser {
     var englishParser = new Parser("<sentence>");
     var object = new Parser("<object>");
     englishParser.terminal("I").terminal("VERB").nonTerminal(object);
-    object.terminal("NOUN").or().terminal("PRONOUN");
+    object.terminal("NOUN").or().terminal("PRONOUN").orEpsilon();
     var root = englishParser.parse(tokens);
     return root;
   }
