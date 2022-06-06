@@ -11,7 +11,8 @@ public class PoohLexerTest {
 
   @Test
   void test1() {
-    runTest("LexingSample1.pooh", "LexingSample1.txt");
+//    runTest("LexingSample1.pooh", "LexingSample1.txt");
+    runTest("ExprSample1.pooh", "LexingSample1.txt");
   }
 
   @Test
