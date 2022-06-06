@@ -9,7 +9,9 @@ import java.util.List;
 public class EnglishParser {
   public ASTNode parse(List<Token> tokens) {
     var englishParser = new Parser("<sentence>");
-    englishParser.terminal("I").terminal("VERB").terminal("NOUN");
+    var object = new Parser("<object>");
+    englishParser.terminal("I").terminal("VERB").nonTerminal(object);
+    object.terminal("NOUN").or().terminal("PRONOUN");
     var root = englishParser.parse(tokens);
     return root;
   }
