@@ -17,14 +17,8 @@ public class EnglishParser {
 
   public ASTNode parseMatchingParenthesis(List<Token> tokens) {
     var englishParser = new Parser("<matching-parenthesis>");
-    englishParser.terminal("LEFT_PAR");
-    englishParser.terminal("RIGHT_PAR");
-    englishParser.orEpsilon();
-    InnerNode parse = (InnerNode)englishParser.parse(tokens);
-//    if (parseMatchingParenthesis(tokens)) {
-//    }
-    parse.addChild(parseMatchingParenthesis(tokens));
-    parse.addChild(parseMatchingParenthesis(tokens));
-    return parse;
+    englishParser.terminal("LEFT_PAR").nonTerminal(englishParser).terminal("RIGHT_PAR").nonTerminal(englishParser).orEpsilon();
+    var root = englishParser.parse(tokens);
+    return root;
   }
 }
