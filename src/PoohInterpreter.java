@@ -8,8 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class PoohInterpreter {
-    Map<String, Integer> mapStore = new HashMap<>();
-    Map<String, InnerNode> mapFuncStore = new HashMap<>();
+    Map<String,Object> globalScope =new HashMap<>();
 
     /**
      * 运行一个POOH程序
@@ -36,14 +35,12 @@ public class PoohInterpreter {
                 if (wwName.getAstName().equals("<assign-statement>")) {
                     LeafNode ID = (LeafNode) wwName.getChild(0);
                     String namename = ID.getTokenText();
-//          if (ID.getTokenTag().equals("NUMBER")) {
-//          }
                     InnerNode expr = (InnerNode) wwName.getChild(2);
                     InnerNode exprtermm = (InnerNode) expr.getChild(0);
                     LeafNode exprterm = (LeafNode) exprtermm.getChild(0);
                     int countcount = 0;
                     if (exprterm.getTokenTag().equals("ID")) {
-                        countcount = mapStore.get(exprterm.getTokenText());
+                        countcount = (int) globalScope.get(exprterm.getTokenText());
                     }
                     if (exprterm.getTokenTag().equals("NUMBER")) {
                         countcount = Integer.parseInt(exprterm.getTokenText());
@@ -63,7 +60,7 @@ public class PoohInterpreter {
                         InnerNode exprmoretermsexper00 = (InnerNode) exprmoreterm.getChild(1).getChild(0);
                         LeafNode exprmoretermsexper0 = (LeafNode) exprmoretermsexper00.getChild(0);
                         if (exprmoretermsexper0.getTokenTag().equals("ID")) {
-                            countcount += mapStore.get(exprmoretermsexper0.getTokenText());
+                            countcount +=  (int) globalScope.get(exprmoretermsexper0.getTokenText());
                         }
                         if (exprmoretermsexper0.getTokenTag().equals("NUMBER")) {
                             countcount += Integer.parseInt(exprmoretermsexper0.getTokenText());
@@ -71,8 +68,8 @@ public class PoohInterpreter {
                         InnerNode exprmoretermmoreterm = (InnerNode) exprmoreterm.getChild(1).getChild(1);
                         exprmoreterm = exprmoretermmoreterm;
                     }
-                    mapStore.remove(namename);
-                    mapStore.put(namename, countcount);
+                    globalScope.remove(namename);
+                    globalScope.put(namename, countcount);
                 }
                 if (wwName.getAstName().equals("<if-statement>")) {
                     int left = 0;
@@ -82,7 +79,7 @@ public class PoohInterpreter {
                         left = Integer.parseInt(numberorid.getTokenText());
                     }
                     if (numberorid.getTokenTag().equals("ID")) {
-                        left = mapStore.get(numberorid.getTokenText());
+                        left =  (int) globalScope.get(numberorid.getTokenText());
                     }
                     InnerNode exprmoreterm = (InnerNode) expr.getChild(1);
                     int ringhtg = 0;
@@ -101,7 +98,7 @@ public class PoohInterpreter {
                     }
                     LeafNode exprmoretermsexper00 = (LeafNode) exprmoreterm.getChild(1).getChild(0);
                     if (exprmoretermsexper00.getTokenTag().equals("ID")) {
-                        ringhtcount = mapStore.get(exprmoretermsexper00.getTokenText());
+                        ringhtcount = (int)  globalScope.get(exprmoretermsexper00.getTokenText());
                     }
                     if (exprmoretermsexper00.getTokenTag().equals("NUMBER")) {
                         ringhtcount = Integer.parseInt(exprmoretermsexper00.getTokenText());
@@ -165,24 +162,24 @@ public class PoohInterpreter {
                     if (lefttgrement == 2) {
                         if (minddle == 1) {
                             if (rightgrement == 2) {
-                                while (mapStore.get(leftstring) < rightnumber) {
+                                while ( (int) globalScope.get(leftstring) < rightnumber) {
                                     run(wwName.getChild(4));
                                 }
                             }
                             if (rightgrement == 1) {
-                                while (mapStore.get(leftstring) < mapStore.get(rightstring)) {
+                                while ( (int) globalScope.get(leftstring) < (int)  globalScope.get(rightstring)) {
                                     run(wwName.getChild(4));
                                 }
                             }
                         }
                         if (minddle == 2) {
                             if (rightgrement == 2) {
-                                while (mapStore.get(leftstring) == rightnumber) {
+                                while ( (int) globalScope.get(leftstring) == rightnumber) {
                                     run(wwName.getChild(4));
                                 }
                             }
                             if (rightgrement == 1) {
-                                while (mapStore.get(leftstring).equals(mapStore.get(rightstring))) {
+                                while (globalScope.get(leftstring).equals(globalScope.get(rightstring))) {
                                     run(wwName.getChild(4));
                                 }
                             }
@@ -190,12 +187,12 @@ public class PoohInterpreter {
                     }
                     if (lefttgrement == 1) {
                         if (minddle == 1) {
-                            while (left < mapStore.get(rightstring)) {
+                            while (left <  (int) globalScope.get(rightstring)) {
                                 run(wwName.getChild(4));
                             }
                         }
                         if (minddle == 2) {
-                            while (left == mapStore.get(rightstring)) {
+                            while (left == (int)  globalScope.get(rightstring)) {
                                 run(wwName.getChild(4));
                             }
                         }
@@ -207,7 +204,11 @@ public class PoohInterpreter {
                         LeafNode term = (LeafNode) expr.getChild(0).getChild(0);
                     }catch (Exception e){
                         InnerNode term = (InnerNode) expr.getChild(0).getChild(0);
-                        System.out.println(runFunctionCall(term));
+                        LeafNode funcID = (LeafNode) term.getChild(1);
+                        String funcIDScope = funcID.getTokenText()+"Scope";
+                        Object funcIDScopeCheck = globalScope.get(funcIDScope);
+                        Map<String,Object> fatherScope= (Map<String, Object>) funcIDScopeCheck;
+                        System.out.println(runFunctionCall(term,fatherScope));
                         return;
                     }
                     LeafNode term = (LeafNode) expr.getChild(0).getChild(0);
@@ -215,24 +216,27 @@ public class PoohInterpreter {
                         System.out.println(Integer.parseInt(term.getTokenText()));
                     }
                     if (term.getTokenTag().equals("ID")) {
-                        System.out.println(mapStore.get(term.getTokenText()));
+                        System.out.println(globalScope.get(term.getTokenText()));
                     }
-//                    if (term.getTokenTag().equals("<function-call>")) {}
                 }
                 if (wwName.getAstName().equals("<function-def>")) {
                     LeafNode funcID = (LeafNode) wwName.getChild(1);
-                    InnerNode functionDef = (InnerNode) wwName;
-                    mapFuncStore.put(funcID.getTokenText(), functionDef);
+                    String funcIDScope = funcID.getTokenText()+"Scope";
+                    globalScope.put(funcID.getTokenText(), (InnerNode) wwName);
+                    globalScope.put(funcIDScope, new HashMap<String,Object>());
                 }
                 if (wwName.getAstName().equals("<function-call>")) {
-                    runFunctionCall(wwName);
+                    LeafNode funcID = (LeafNode) wwName.getChild(1);
+                    String funcIDScope = funcID.getTokenText()+"Scope";
+                    Object funcIDScopeCheck = globalScope.get(funcIDScope);
+                    Map<String,Object> fatherScope= (Map<String, Object>) funcIDScopeCheck;
+                    runFunctionCall((ASTNode) wwName,fatherScope);
                 }
             }
         }
-
     }
 
-    public  int runFunctionCall(ASTNode functioncall) {
+    public  int runFunctionCall(ASTNode functioncall,Map<String,Object> fatherScope) {
         List<Integer> arglisttotal = new ArrayList<Integer>();
         LeafNode ID = (LeafNode) functioncall.getChild(1);
         InnerNode arglist = (InnerNode) functioncall.getChild(3);
@@ -242,9 +246,37 @@ public class PoohInterpreter {
             } catch (Exception e) {
                 break;
             }
-            ASTNode Number1 = arglist.getChild(0).getChild(0).getChild(0);
-            LeafNode Numberone = (LeafNode) Number1;
-            arglisttotal.add(Integer.parseInt(Numberone.getTokenText()));
+            LeafNode Number1 =(LeafNode) arglist.getChild(0).getChild(0).getChild(0);
+            int numberonee=0;
+            if (Number1.getTokenTag().equals("ID")) {
+                numberonee = (int) fatherScope.get(Number1.getTokenText());
+            }
+            if (Number1.getTokenTag().equals("NUMBER")) {
+                numberonee = Integer.parseInt(Number1.getTokenText());
+            }
+            InnerNode exprmoreterm = (InnerNode) arglist.getChild(0).getChild(1);
+            while (true) {
+                try {
+                    LeafNode exprmoretermleafnode = (LeafNode) exprmoreterm.getChild(0);
+                } catch (Exception e) {
+                    break;
+                }
+                LeafNode exprmoretermleafnode = (LeafNode) exprmoreterm.getChild(0);
+                if (exprmoretermleafnode.getTokenTag().equals("epsilon")) {
+                    break;
+                }
+                InnerNode exprmoretermsexper00 = (InnerNode) exprmoreterm.getChild(1).getChild(0);
+                LeafNode exprmoretermsexper0 = (LeafNode) exprmoretermsexper00.getChild(0);
+                if (exprmoretermsexper0.getTokenTag().equals("ID")) {
+                    numberonee +=  (int) fatherScope.get(exprmoretermsexper0.getTokenText());
+                }
+                if (exprmoretermsexper0.getTokenTag().equals("NUMBER")) {
+                    numberonee += Integer.parseInt(exprmoretermsexper0.getTokenText());
+                }
+                InnerNode exprmoretermmoreterm = (InnerNode) exprmoreterm.getChild(1).getChild(1);
+                exprmoreterm = exprmoretermmoreterm;
+            }
+            arglisttotal.add(numberonee);
             try {
                 LeafNode ifCOMMA = (LeafNode) arglist.getChild(1).getChild(0);
             }catch (Exception e) {
@@ -257,8 +289,9 @@ public class PoohInterpreter {
                 break;
             }
         }
-        InnerNode functionDef = mapFuncStore.get(ID.getTokenText());
-        Map<String, Integer> functionInteger = new HashMap<>();
+        InnerNode functionDef =  (InnerNode) globalScope.get(ID.getTokenText());
+        Map<String, Object> functionScope = new HashMap<>();
+        fatherScope.put("1",functionScope);
         InnerNode paramlist = (InnerNode) functionDef.getChild(3);
         int xiabiao = 0;
         while (true) {
@@ -266,7 +299,7 @@ public class PoohInterpreter {
             if (ifEPSIlON.getTokenTag().equals("epsilon")) {
                 break;
             } else {
-                functionInteger.put(ifEPSIlON.getTokenText(), arglisttotal.get(xiabiao));
+                functionScope.put(ifEPSIlON.getTokenText(), arglisttotal.get(xiabiao));
                 xiabiao++;
             }
             try {
@@ -286,17 +319,17 @@ public class PoohInterpreter {
            if (children.size() == 1) {
             LeafNode IDorNUMBER = (LeafNode)functionstatement.getChild(0).getChild(1).getChild(0).getChild(0);
             if (IDorNUMBER.getTokenTag().equals("ID")) {
-                return functionInteger.get(IDorNUMBER.getTokenText());
+                return (int) functionScope.get(IDorNUMBER.getTokenText());
             }
             if (IDorNUMBER.getTokenTag().equals("NUMBER")) {
             return Integer.parseInt(IDorNUMBER.getTokenText());
             }
         }
         if (children.size() == 2) {
-            run2(functionstatement.getChild(0),functionInteger);
+            run2(functionstatement.getChild(0),functionScope);
             LeafNode IDorNUMBER2 = (LeafNode)functionstatement.getChild(1).getChild(1).getChild(0).getChild(0);
             if (IDorNUMBER2.getTokenTag().equals("ID")) {
-                return functionInteger.get(IDorNUMBER2.getTokenText());
+                return (int) functionScope.get(IDorNUMBER2.getTokenText());
             }
             if (IDorNUMBER2.getTokenTag().equals("NUMBER")) {
                 return Integer.parseInt(IDorNUMBER2.getTokenText());
@@ -304,10 +337,10 @@ public class PoohInterpreter {
         }
         return 2;
     }
-    public void run2(ASTNode program,Map<String, Integer> functionInteger) {
+    public void run2(ASTNode program,Map<String, Object> functionScope) {
         InnerNode father = (InnerNode) program;
         if (father.getAstName().equals("<block>")) {
-            run2(father.getChild(1),functionInteger);
+            run2(program.getChild(1),functionScope);
         }
         for (ASTNode child : father.getChildren()) {
             try {
@@ -317,7 +350,7 @@ public class PoohInterpreter {
             }
             InnerNode boy = (InnerNode) child;
             if (boy.getAstName().equals("<program>")) {
-                run2(boy,functionInteger);
+                run2(boy,functionScope);
             }
             if (boy.getAstName().equals("<statement>")) {
                 InnerNode wwName = (InnerNode) boy.getChild(0);
@@ -326,47 +359,63 @@ public class PoohInterpreter {
                     String namename = ID.getTokenText();
                     InnerNode expr = (InnerNode) wwName.getChild(2);
                     InnerNode exprtermm = (InnerNode) expr.getChild(0);
-                    LeafNode exprterm = (LeafNode) exprtermm.getChild(0);
+                    boolean iffunctioncall = true;
                     int countcount = 0;
-                    if (exprterm.getTokenTag().equals("ID")) {
-                        if(!mapStore.containsKey(exprterm.getTokenText())){
-                            countcount = functionInteger.get(exprterm.getTokenText());
-                        }else {
-                            countcount = mapStore.get(exprterm.getTokenText());
-                        }
+                    try {
+                        LeafNode exprterm = (LeafNode) exprtermm.getChild(0);
+                    }catch (Exception e) {
+                        InnerNode exprterm = (InnerNode) exprtermm.getChild(0);
+                        countcount = runFunctionCall(exprterm,functionScope);
+                        iffunctioncall = false;
                     }
-                    if (exprterm.getTokenTag().equals("NUMBER")) {
-                        countcount = Integer.parseInt(exprterm.getTokenText());
+                    if(iffunctioncall) {
+                        LeafNode exprterm = (LeafNode) exprtermm.getChild(0);
+                        if (exprterm.getTokenTag().equals("ID")) {
+                            if (!globalScope.containsKey(exprterm.getTokenText())) {
+                                countcount = (int) functionScope.get(exprterm.getTokenText());
+                            } else {
+                                countcount = (int) globalScope.get(exprterm.getTokenText());
+                            }
+                        }
+                        if (exprterm.getTokenTag().equals("NUMBER")) {
+                            countcount = Integer.parseInt(exprterm.getTokenText());
+                        }
                     }
                     InnerNode exprmoreterm = (InnerNode) expr.getChild(1);
                     while (true) {
+                            try {
+                                LeafNode exprmoretermleafnode = (LeafNode) exprmoreterm.getChild(0);
+                            } catch (Exception e) {
+                                break;
+                            }
+                            InnerNode exprmoretermsexper00 = (InnerNode) exprmoreterm.getChild(1).getChild(0);
+                            boolean ifnamemm =true;
                         try {
-                            LeafNode exprmoretermleafnode = (LeafNode) exprmoreterm.getChild(0);
-                        } catch (Exception e) {
-                            break;
+                            LeafNode exprterm = (LeafNode) exprmoretermsexper00.getChild(0);
+                        }catch (Exception e) {
+                            InnerNode exprterm = (InnerNode) exprmoretermsexper00.getChild(0);
+                            countcount += runFunctionCall(exprterm,functionScope);
+                            ifnamemm = false;
                         }
-                        LeafNode exprmoretermleafnode = (LeafNode) exprmoreterm.getChild(0);
-
-                        if (exprmoretermleafnode.getTokenTag().equals("epsilon")) {
-                            break;
-                        }
-                        InnerNode exprmoretermsexper00 = (InnerNode) exprmoreterm.getChild(1).getChild(0);
-                        LeafNode exprmoretermsexper0 = (LeafNode) exprmoretermsexper00.getChild(0);
-                        if (exprmoretermsexper0.getTokenTag().equals("ID")) {
-                            if(!mapStore.containsKey(exprterm.getTokenText())){
-                                countcount += functionInteger.get(exprmoretermsexper0.getTokenText());
-                            }else {
-                                countcount += mapStore.get(exprmoretermsexper0.getTokenText());
+                        if (ifnamemm) {
+                            LeafNode exprmoretermsexper0 = (LeafNode) exprmoretermsexper00.getChild(0);
+                            if (exprmoretermsexper0.getTokenTag().equals("ID")) {
+                                if (!globalScope.containsKey(exprmoretermsexper0.getTokenText())) {
+                                    countcount += (int) functionScope.get(exprmoretermsexper0.getTokenText());
+                                } else {
+                                    countcount += (int) globalScope.get(exprmoretermsexper0.getTokenText());
+                                }
+                            }
+                            if (exprmoretermsexper0.getTokenTag().equals("NUMBER")) {
+                                countcount += Integer.parseInt(exprmoretermsexper0.getTokenText());
                             }
                         }
-                        if (exprmoretermsexper0.getTokenTag().equals("NUMBER")) {
-                            countcount += Integer.parseInt(exprmoretermsexper0.getTokenText());
+                            InnerNode exprmoretermmoreterm = (InnerNode) exprmoreterm.getChild(1).getChild(1);
+                            exprmoreterm = exprmoretermmoreterm;
                         }
-                        InnerNode exprmoretermmoreterm = (InnerNode) exprmoreterm.getChild(1).getChild(1);
-                        exprmoreterm = exprmoretermmoreterm;
-                    }
-                    functionInteger.remove(namename);
-                    functionInteger.put(namename, countcount);
+                        functionScope.remove(namename);
+                        functionScope.put(namename, countcount);
+
                 }
                 if (wwName.getAstName().equals("<if-statement>")) {
                     int left = 0;
@@ -376,7 +425,7 @@ public class PoohInterpreter {
                         left = Integer.parseInt(numberorid.getTokenText());
                     }
                     if (numberorid.getTokenTag().equals("ID")) {
-                        left = mapStore.get(numberorid.getTokenText());
+                        left = (int)functionScope.get(numberorid.getTokenText());
                     }
                     InnerNode exprmoreterm = (InnerNode) expr.getChild(1);
                     int ringhtg = 0;
@@ -395,23 +444,23 @@ public class PoohInterpreter {
                     }
                     LeafNode exprmoretermsexper00 = (LeafNode) exprmoreterm.getChild(1).getChild(0);
                     if (exprmoretermsexper00.getTokenTag().equals("ID")) {
-                        ringhtcount = mapStore.get(exprmoretermsexper00.getTokenText());
+                        ringhtcount =(int) globalScope.get(exprmoretermsexper00.getTokenText());
                     }
                     if (exprmoretermsexper00.getTokenTag().equals("NUMBER")) {
                         ringhtcount = Integer.parseInt(exprmoretermsexper00.getTokenText());
                     }
                     if (ringhtg == 1) {
                         if (left < ringhtcount) {
-                            run2(wwName.getChild(4),functionInteger);
+                            run2(wwName.getChild(4),functionScope);
                         } else {
-                            run2(wwName.getChild(6),functionInteger);
+                            run2(wwName.getChild(6),functionScope);
                         }
                     }
                     if (ringhtg == 2) {
                         if (left == ringhtcount) {
-                            run2(wwName.getChild(4),functionInteger);
+                            run2(wwName.getChild(4),functionScope);
                         } else {
-                            run2(wwName.getChild(6),functionInteger);
+                            run2(wwName.getChild(6),functionScope);
                         }
                     }
                 }
@@ -459,45 +508,45 @@ public class PoohInterpreter {
                     if (lefttgrement == 2) {
                         if (minddle == 1) {
                             if (rightgrement == 2) {
-                                while (mapStore.get(leftstring) < rightnumber) {
-                                    run2(wwName.getChild(4),functionInteger);
+                                while ((int)globalScope.get(leftstring) < rightnumber) {
+                                    run2(wwName.getChild(4),functionScope);
                                 }
                             }
                             if (rightgrement == 1) {
-                                while (mapStore.get(leftstring) < mapStore.get(rightstring)) {
-                                    run2(wwName.getChild(4),functionInteger);
+                                while ((int)globalScope.get(leftstring) < (int)globalScope.get(rightstring)) {
+                                    run2(wwName.getChild(4),functionScope);
                                 }
                             }
                         }
                         if (minddle == 2) {
                             if (rightgrement == 2) {
-                                while (mapStore.get(leftstring) == rightnumber) {
-                                    run2(wwName.getChild(4),functionInteger);
+                                while ((int)globalScope.get(leftstring) == rightnumber) {
+                                    run2(wwName.getChild(4),functionScope);
                                 }
                             }
                             if (rightgrement == 1) {
-                                while (mapStore.get(leftstring).equals(mapStore.get(rightstring))) {
-                                    run2(wwName.getChild(4),functionInteger);
+                                while (globalScope.get(leftstring).equals(globalScope.get(rightstring))) {
+                                    run2(wwName.getChild(4),functionScope);
                                 }
                             }
                         }
                     }
                     if (lefttgrement == 1) {
                         if (minddle == 1) {
-                            if(!mapStore.containsKey(rightstring)){
-                                while (left < functionInteger.get(rightstring)) {
-                                    run2(wwName.getChild(4),functionInteger);
+                            if(!globalScope.containsKey(rightstring)){
+                                while (left < (int)functionScope.get(rightstring)) {
+                                    run2(wwName.getChild(4),functionScope);
                                 }
                             }else {
-                                while (left < mapStore.get(rightstring)) {
-                                    run2(wwName.getChild(4),functionInteger);
+                                while (left < (int)globalScope.get(rightstring)) {
+                                    run2(wwName.getChild(4),functionScope);
                                 }
                             }
 
                         }
                         if (minddle == 2) {
-                            while (left == mapStore.get(rightstring)) {
-                           run2(wwName.getChild(4),functionInteger);
+                            while (left == (int)globalScope.get(rightstring)) {
+                           run2(wwName.getChild(4),functionScope);
                             }
                         }
                     }
@@ -508,7 +557,7 @@ public class PoohInterpreter {
                         LeafNode term = (LeafNode) expr.getChild(0).getChild(0);
                     }catch (Exception e){
                         InnerNode term = (InnerNode) expr.getChild(0).getChild(0);
-                        System.out.println(runFunctionCall(term));
+                        System.out.println(runFunctionCall(term,globalScope));
                         return;
                     }
                     LeafNode term = (LeafNode) expr.getChild(0).getChild(0);
@@ -516,17 +565,17 @@ public class PoohInterpreter {
                         System.out.println(Integer.parseInt(term.getTokenText()));
                     }
                     if (term.getTokenTag().equals("ID")) {
-                        System.out.println(mapStore.get(term.getTokenText()));
+                        System.out.println(functionScope.get(term.getTokenText()));
                     }
 //                    if (term.getTokenTag().equals("<function-call>")) {}
                 }
                 if (wwName.getAstName().equals("<function-def>")) {
                     LeafNode funcID = (LeafNode) wwName.getChild(1);
                     InnerNode functionDef = (InnerNode) wwName;
-                    mapFuncStore.put(funcID.getTokenText(), functionDef);
+                    globalScope.put(funcID.getTokenText(), functionDef);
                 }
                 if (wwName.getAstName().equals("<function-call>")) {
-                    runFunctionCall(wwName);
+                    runFunctionCall(wwName,globalScope);
                 }
             }
         }
