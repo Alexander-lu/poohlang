@@ -129,10 +129,17 @@ public class PoohInterpreter {
         String leftID = ID.getTokenText();
         InnerNode exprOrclosure = (InnerNode) assign.getChild(1).getChild(0);
         if (exprOrclosure.getAstName().equals("<expr>")) {
-            functionScope.remove(leftID);
-            functionScope.put(leftID,assignExpr(exprOrclosure,functionScope));
+            try {
+                InnerNode child = (InnerNode)exprOrclosure.getChild(0).getChild(0);
+            }catch (Exception e) {
+                functionScope.put(leftID,assignExpr(exprOrclosure,functionScope));
+                return;
+            }
+            InnerNode child = (InnerNode)exprOrclosure.getChild(0).getChild(0);
+            if (child.getAstName().equals("<function-call>")) {
+                functionScope.put(leftID,child);
+            }
         }else if (exprOrclosure.getAstName().equals("<closure>")) {
-            functionScope.remove(leftID);
             functionScope.put(leftID,exprOrclosure);
         }
     }
@@ -150,6 +157,7 @@ public class PoohInterpreter {
         if(ifFuncCall){
             LeafNode exprterm = (LeafNode) exprtermm.getChild(0);
             if (exprterm.getTokenTag().equals("ID")) {
+
                 count = (int) extendScope.get(exprterm.getTokenText());
             }
             if (exprterm.getTokenTag().equals("NUMBER")) {
@@ -366,6 +374,11 @@ public class PoohInterpreter {
     }
     public int functionCall(InnerNode statementChoices, Map<String, Object> extendScope){
         LeafNode funcID = (LeafNode) statementChoices.getChild(1);
+        try {
+            InnerNode funcDef = (InnerNode) extendScope.get(funcID.getTokenText());
+        }catch (Exception e){
+            return (int) extendScope.get(funcID.getTokenText());
+        }
         InnerNode funcDef = (InnerNode) extendScope.get(funcID.getTokenText());
         Map<String, Object> functionCallScope = new HashMap<String, Object>();
         functionCallScope.putAll(extendScope);
@@ -426,6 +439,9 @@ public class PoohInterpreter {
         }
         if(funcDef.getAstName().equals("<closure>")){
             return closure(funcDef,functionCallScope,arglisttotal);
+        }
+        if(funcDef.getAstName().equals("<function-call>")){
+            return functionCall(funcDef,functionCallScope);
         }
         return 0;
     }
