@@ -326,7 +326,7 @@ public class PoohInterpreter {
                 }
             }
             InnerNode functionstatement = (InnerNode) functionDef.getChild(5);
-            return functionstatements(functionstatement, functionScope);
+            return functionStatements(functionstatement, functionScope);
         }
         if (functionDef.getAstName().equals("<function-def>")) {
             Map<String, Object> functionScope = new HashMap<>();
@@ -354,7 +354,7 @@ public class PoohInterpreter {
                 }
             }
             InnerNode functionstatement = (InnerNode) functionDef.getChild(6);
-            return functionstatements(functionstatement, functionScope);
+            return functionStatements(functionstatement, functionScope);
         }
         return 2;
     }
@@ -609,7 +609,7 @@ public class PoohInterpreter {
 
     }
 
-    public int functionstatements(InnerNode functionstatement, Map<String, Object> functionScope) {
+    public int functionStatements(InnerNode functionstatement, Map<String, Object> functionScope) {
         List<ASTNode> children = functionstatement.getChildren();
         if (children.size() == 1) {
             return returnStatement((InnerNode) functionstatement.getChild(0),functionScope);
@@ -675,4 +675,5 @@ public class PoohInterpreter {
         return count;
     }
     public void closure(){}
+    public void assignStatement(){}
 }
