@@ -312,33 +312,32 @@ public class PoohInterpreter {
                 runTotal(statementChoices.getChild(6),functionScope);
             }
     }
-    public boolean exprLessOrEqual(InnerNode exprOrclosure, Map<String, Object> functionScope){
-        int left = 0;
-        int right = 0;
-        LeafNode exprmoretermleafnode = (LeafNode) exprmoreterm.getChild(0);
-        if (exprmoretermleafnode.getTokenTag().equals("LESS_THAN")) {
+    public boolean exprLessOrEqual(InnerNode expr, Map<String, Object> functionScope){
+        LeafNode lessThanOrEqual = (LeafNode) expr.getChild(1).getChild(0);
+        if (lessThanOrEqual.getTokenTag().equals("LESS_THAN")) {
             return true;
         }
-        if (exprmoretermleafnode.getTokenTag().equals("EQUAL_TEST")) {
+        if (lessThanOrEqual.getTokenTag().equals("EQUAL_TEST")) {
             return false;
         }
     }
     public boolean ifExpr(InnerNode expr, Map<String, Object> functionScope){
         int left = 0;
         int right = 0;
+        //还需要考虑numberorid是<function-call>的情况
         LeafNode numberorid = (LeafNode) expr.getChild(0).getChild(0);
         if (numberorid.getTokenTag().equals("NUMBER")) {
             left = Integer.parseInt(numberorid.getTokenText());
         }
         if (numberorid.getTokenTag().equals("ID")) {
-            left = (int) globalScope.get(numberorid.getTokenText());
+            left = (int) functionScope.get(numberorid.getTokenText());
         }
-        LeafNode exprmoretermsexper00 = (LeafNode) expr.getChild(1).getChild(1).getChild(0);
-        if (exprmoretermsexper00.getTokenTag().equals("ID")) {
-            right = (int) globalScope.get(exprmoretermsexper00.getTokenText());
+        LeafNode rightTerm = (LeafNode) expr.getChild(1).getChild(1).getChild(0);
+        if (rightTerm.getTokenTag().equals("ID")) {
+            right = (int) functionScope.get(rightTerm.getTokenText());
         }
-        if (exprmoretermsexper00.getTokenTag().equals("NUMBER")) {
-            right = Integer.parseInt(exprmoretermsexper00.getTokenText());
+        if (rightTerm.getTokenTag().equals("NUMBER")) {
+            right = Integer.parseInt(rightTerm.getTokenText());
         }
         if(exprLessOrEqual(expr,functionScope)){
             if(left < right){
