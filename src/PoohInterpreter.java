@@ -10,7 +10,6 @@ import java.util.Map;
 
 public class PoohInterpreter {
     Map<String, Object> globalScope = new HashMap<>();
-
     /**
      * 运行一个POOH程序
      *
@@ -46,17 +45,10 @@ public class PoohInterpreter {
                     printStatement(statementChoices,extendScope);
                 }
                 if (statementChoices.getAstName().equals("<function-def>")) {
-                    LeafNode funcID = (LeafNode) statementChoices.getChild(1);
-                    String funcIDScope = funcID.getTokenText() + "Scope";
-                    globalScope.put(funcID.getTokenText(), (InnerNode) statementChoices);
-                    globalScope.put(funcIDScope, new HashMap<String, Object>());
+                    functionDef(statementChoices,extendScope);
                 }
                 if (statementChoices.getAstName().equals("<function-call>")) {
-                    LeafNode funcID = (LeafNode) statementChoices.getChild(1);
-                    String funcIDScope = funcID.getTokenText() + "Scope";
-                    Object funcIDScopeCheck = globalScope.get(funcIDScope);
-                    Map<String, Object> fatherScope = (Map<String, Object>) funcIDScopeCheck;
-                    runFunctionCall((ASTNode) statementChoices, fatherScope);
+                    functionCall(statementChoices,extendScope);
                 }
             }
         }
@@ -667,5 +659,18 @@ public class PoohInterpreter {
                 }
             }
         }
+    }
+    public void functionDef(InnerNode statementChoices, Map<String, Object> functionScope){
+        LeafNode funcID = (LeafNode) statementChoices.getChild(1);
+        String funcIDScope = funcID.getTokenText() + "Scope";
+        globalScope.put(funcID.getTokenText(), (InnerNode) statementChoices);
+        globalScope.put(funcIDScope, new HashMap<String, Object>());
+    }
+    public void functionCall(InnerNode statementChoices, Map<String, Object> functionScope){
+        LeafNode funcID = (LeafNode) statementChoices.getChild(1);
+        String funcIDScope = funcID.getTokenText() + "Scope";
+        Object funcIDScopeCheck = globalScope.get(funcIDScope);
+        Map<String, Object> fatherScope = (Map<String, Object>) funcIDScopeCheck;
+        runFunctionCall((ASTNode) statementChoices, fatherScope);
     }
 }
