@@ -305,8 +305,27 @@ public class PoohInterpreter {
         }
     }
     public void ifStatement(InnerNode statementChoices, Map<String, Object> functionScope){
+            InnerNode expr = (InnerNode) statementChoices.getChild(2);
+            if (ifExpr(expr,functionScope)) {
+                runTotal(statementChoices.getChild(4),functionScope);
+            } else {
+                runTotal(statementChoices.getChild(6),functionScope);
+            }
+    }
+    public boolean exprLessOrEqual(InnerNode exprOrclosure, Map<String, Object> functionScope){
         int left = 0;
-        InnerNode expr = (InnerNode) statementChoices.getChild(2);
+        int right = 0;
+        LeafNode exprmoretermleafnode = (LeafNode) exprmoreterm.getChild(0);
+        if (exprmoretermleafnode.getTokenTag().equals("LESS_THAN")) {
+            return true;
+        }
+        if (exprmoretermleafnode.getTokenTag().equals("EQUAL_TEST")) {
+            return false;
+        }
+    }
+    public boolean ifExpr(InnerNode expr, Map<String, Object> functionScope){
+        int left = 0;
+        int right = 0;
         LeafNode numberorid = (LeafNode) expr.getChild(0).getChild(0);
         if (numberorid.getTokenTag().equals("NUMBER")) {
             left = Integer.parseInt(numberorid.getTokenText());
@@ -314,40 +333,24 @@ public class PoohInterpreter {
         if (numberorid.getTokenTag().equals("ID")) {
             left = (int) globalScope.get(numberorid.getTokenText());
         }
-        InnerNode exprmoreterm = (InnerNode) expr.getChild(1);
-        int ringhtg = 0;
-        int ringhtcount = 0;
-        try {
-            LeafNode exprmoretermleafnode = (LeafNode) exprmoreterm.getChild(0);
-        } catch (Exception e) {
-            break;
-        }
-        LeafNode exprmoretermleafnode = (LeafNode) exprmoreterm.getChild(0);
-        if (exprmoretermleafnode.getTokenTag().equals("LESS_THAN")) {
-            ringhtg = 1;
-        }
-        if (exprmoretermleafnode.getTokenTag().equals("EQUAL_TEST")) {
-            ringhtg = 2;
-        }
-        LeafNode exprmoretermsexper00 = (LeafNode) exprmoreterm.getChild(1).getChild(0);
+        LeafNode exprmoretermsexper00 = (LeafNode) expr.getChild(1).getChild(1).getChild(0);
         if (exprmoretermsexper00.getTokenTag().equals("ID")) {
-            ringhtcount = (int) globalScope.get(exprmoretermsexper00.getTokenText());
+            right = (int) globalScope.get(exprmoretermsexper00.getTokenText());
         }
         if (exprmoretermsexper00.getTokenTag().equals("NUMBER")) {
-            ringhtcount = Integer.parseInt(exprmoretermsexper00.getTokenText());
+            right = Integer.parseInt(exprmoretermsexper00.getTokenText());
         }
-        if (ringhtg == 1) {
-            if (left < ringhtcount) {
-                runTotal(statementChoices.getChild(4));
-            } else {
-                runTotal(statementChoices.getChild(6));
+        if(exprLessOrEqual(expr,functionScope)){
+            if(left < right){
+                return true;
+            }else {
+                return false;
             }
-        }
-        if (ringhtg == 2) {
-            if (left == ringhtcount) {
-                runTotal(statementChoices.getChild(4));
-            } else {
-                runTotal(statementChoices.getChild(6));
+        }else {
+            if(left == right){
+                return true;
+            }else {
+                return false;
             }
         }
     }
