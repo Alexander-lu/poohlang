@@ -9,7 +9,7 @@ public class ParserExamples {
   @Test
   void testICry() {
     var englishParser = new Parser("<sentence>");
-    englishParser.terminal("I").terminal("VERB");
+    englishParser.terminal("I").terminal("VERB").terminal("NOUN");
     var tokens = TestHelper.tokensOf(new String[]{"I", "VERB"}, new String[]{"I", "cry"});
     var root = englishParser.parse(tokens);
     PrintHelper.printAST(root);

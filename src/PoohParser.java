@@ -30,6 +30,9 @@ public class PoohParser {
     var moreparams = new Parser("<more-params>");
     var arglist = new Parser("<arg-list>");
     var moreargs = new Parser("<more-args>");
+    var assignprefix = new Parser("<assign-prefix>");
+    var assignsuffix = new Parser("<assign-suffix>");
+    var closure = new Parser("<closure>");
     program.nonTerminal(statement).nonTerminal(program).orEpsilon();
     functiondef.terminal( "KEYWORD_FUNC").terminal("ID").terminal("LEFT_PAR").nonTerminal(paramlist).terminal("RIGHT_PAR").terminal("LEFT_BRACE").nonTerminal(functionstatements).terminal("RIGHT_BRACE");
     functionstatements.nonTerminal(returnstatement).or().nonTerminal(program).nonTerminal(returnstatement);
@@ -45,7 +48,10 @@ public class PoohParser {
     moreTerms.terminal("PLUS").nonTerminal(expr).or().terminal("LESS_THAN").nonTerminal(term).or().terminal("EQUAL_TEST").nonTerminal(term).orEpsilon();
     term.terminal("NUMBER").or().terminal("ID").or().nonTerminal(functioncall);
     printStatement.terminal("KEYWORD_PRINT").nonTerminal(expr);
-    assignStatement.terminal("ID").terminal("EQUAL").nonTerminal(expr);
+    assignStatement.nonTerminal(assignprefix).nonTerminal(assignsuffix);
+    assignprefix.terminal("ID").terminal("EQUAL");
+    assignsuffix.nonTerminal(expr).or().nonTerminal(closure);
+    closure.terminal("KEYWORD_FUNC").terminal("LEFT_PAR").nonTerminal(paramlist).terminal("RIGHT_PAR").terminal("LEFT_BRACE").nonTerminal(functionstatements).terminal("RIGHT_BRACE");
     ifStatement.terminal("KEYWORD_IF").terminal("LEFT_PAR").nonTerminal(expr).terminal("RIGHT_PAR").nonTerminal(block).terminal("KEYWORD_ELSE").nonTerminal(block);
     block.terminal("LEFT_BRACE").nonTerminal(program).terminal("RIGHT_BRACE");
     var root = program.parse(tokens);
