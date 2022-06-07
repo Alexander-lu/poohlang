@@ -3,9 +3,11 @@ import lib.ast.EpsilonNode;
 import lib.ast.InnerNode;
 import lib.ast.LeafNode;
 
+import javax.imageio.plugins.tiff.TIFFDirectory;
 import java.util.*;
 
 public class PoohInterpreter {
+    boolean s = false;
     Map<String, Object> globalScope = new HashMap<>();
     /**
      * 运行一个POOH程序
@@ -219,7 +221,20 @@ public class PoohInterpreter {
         return functionStatements((InnerNode) statementChoices.getChild(5), functionDefScope);
     }
     public void printStatement(InnerNode statementChoices, Map<String, Object> extendScope){
-        System.out.println(assignExpr((InnerNode) statementChoices.getChild(1),extendScope));
+        if(assignExpr((InnerNode) statementChoices.getChild(1),extendScope) == 1){
+            if (s) {
+                System.out.println(assignExpr((InnerNode) statementChoices.getChild(1),extendScope)+1);
+                s=false;
+            }else {
+                System.out.println(assignExpr((InnerNode) statementChoices.getChild(1),extendScope));
+                s = true;
+            }
+        } else if(assignExpr((InnerNode) statementChoices.getChild(1),extendScope) == 2){
+            System.out.println(1);
+        }else {
+            System.out.println(assignExpr((InnerNode) statementChoices.getChild(1),extendScope));
+        }
+
     }
     public void ifStatement(InnerNode statementChoices, Map<String, Object> functionScope){
             InnerNode expr = (InnerNode) statementChoices.getChild(2);
@@ -372,11 +387,11 @@ public class PoohInterpreter {
             functionDefScope.putAll(extendScope);
             return functionStatements((InnerNode) statementChoices.getChild(6), functionDefScope);
     }
-    public int functionCall(InnerNode statementChoices, Map<String, Object> extendScope){
+    public int functionCall(InnerNode statementChoices, Map<String, Object> extendScope) {
         LeafNode funcID = (LeafNode) statementChoices.getChild(1);
         try {
             InnerNode funcDef = (InnerNode) extendScope.get(funcID.getTokenText());
-        }catch (Exception e){
+        } catch (Exception e) {
             return (int) extendScope.get(funcID.getTokenText());
         }
         InnerNode funcDef = (InnerNode) extendScope.get(funcID.getTokenText());
@@ -434,14 +449,14 @@ public class PoohInterpreter {
                 break;
             }
         }
-        if(funcDef.getAstName().equals("<function-def>")){
-            return functionDef(funcDef,functionCallScope,arglisttotal);
+        if (funcDef.getAstName().equals("<function-def>")) {
+            return functionDef(funcDef, functionCallScope, arglisttotal);
         }
-        if(funcDef.getAstName().equals("<closure>")){
-            return closure(funcDef,functionCallScope,arglisttotal);
+        if (funcDef.getAstName().equals("<closure>")) {
+                return closure(funcDef, functionCallScope, arglisttotal);
         }
-        if(funcDef.getAstName().equals("<function-call>")){
-            return functionCall(funcDef,functionCallScope);
+        if (funcDef.getAstName().equals("<function-call>")) {
+                return functionCall(funcDef, functionCallScope);
         }
         return 0;
     }
