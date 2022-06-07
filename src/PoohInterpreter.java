@@ -353,82 +353,76 @@ public class PoohInterpreter {
             }
         }
     }
-    public void whileStatement(InnerNode statementChoices, Map<String, Object> functionScope){
-        int countttttt = 0;
-        int lefttgrement = 0;
+    public void whileStatement(InnerNode statementChoices, Map<String, Object> extendScope){
+        int leftIdOrNumber = 0;
         int minddle = 0;
-        int rightgrement = 0;
-        int left = 0;
+        int RightIdOrNumber = 0;
+        int leftNumber = 0;
+        int rightNumber = 0;
         String leftstring = null;
-        int rightnumber = 0;
         String rightstring = null;
         InnerNode expr = (InnerNode) statementChoices.getChild(2);
-        LeafNode numberorid = (LeafNode) expr.getChild(0).getChild(0);
-        if (numberorid.getTokenTag().equals("NUMBER")) {
-            left = Integer.parseInt(numberorid.getTokenText());
-            lefttgrement = 1;
+        LeafNode NumberOrId = (LeafNode) expr.getChild(0).getChild(0);
+        if (NumberOrId.getTokenTag().equals("NUMBER")) {
+            leftNumber = Integer.parseInt(NumberOrId.getTokenText());
+            leftIdOrNumber = 1;
         }
-        if (numberorid.getTokenTag().equals("ID")) {
-            leftstring = numberorid.getTokenText();
-            lefttgrement = 2;
+        if (NumberOrId.getTokenTag().equals("ID")) {
+            leftstring = NumberOrId.getTokenText();
+            leftIdOrNumber = 2;
         }
-        InnerNode exprmoreterm = (InnerNode) expr.getChild(1);
-        try {
-            LeafNode exprmoretermleafnode = (LeafNode) exprmoreterm.getChild(0);
-        } catch (Exception e) {
-            break;
-        }
-        LeafNode exprmoretermleafnode = (LeafNode) exprmoreterm.getChild(0);
-        if (exprmoretermleafnode.getTokenTag().equals("LESS_THAN")) {
+        InnerNode exprmoreterms = (InnerNode) expr.getChild(1);
+        LeafNode lessThanOrEqual = (LeafNode) exprmoreterms.getChild(0);
+        if (lessThanOrEqual.getTokenTag().equals("LESS_THAN")) {
             minddle = 1;
         }
-        if (exprmoretermleafnode.getTokenTag().equals("EQUAL_TEST")) {
+        if (lessThanOrEqual.getTokenTag().equals("EQUAL_TEST")) {
             minddle = 2;
         }
-        LeafNode exprmoretermsexper00 = (LeafNode) exprmoreterm.getChild(1).getChild(0);
-        if (exprmoretermsexper00.getTokenTag().equals("ID")) {
-            rightgrement = 1;
-            rightstring = exprmoretermsexper00.getTokenText();
+        LeafNode rightNumberOrID = (LeafNode) exprmoreterms.getChild(1).getChild(0);
+        if (rightNumberOrID.getTokenTag().equals("ID")) {
+            RightIdOrNumber = 1;
+            rightstring = rightNumberOrID.getTokenText();
         }
-        if (exprmoretermsexper00.getTokenTag().equals("NUMBER")) {
-            rightgrement = 2;
-            rightnumber = Integer.parseInt(exprmoretermsexper00.getTokenText());
+        if (rightNumberOrID.getTokenTag().equals("NUMBER")) {
+            RightIdOrNumber = 2;
+            rightNumber = Integer.parseInt(rightNumberOrID.getTokenText());
         }
-        if (lefttgrement == 2) {
+        if (leftIdOrNumber == 2) {
             if (minddle == 1) {
-                if (rightgrement == 2) {
-                    while ((int) globalScope.get(leftstring) < rightnumber) {
-                        runTotal(statementChoices.getChild(4));
+                if (RightIdOrNumber == 2) {
+                    while ((int) extendScope.get(leftstring) < rightNumber) {
+                        runTotal(statementChoices.getChild(4),extendScope);
                     }
                 }
-                if (rightgrement == 1) {
-                    while ((int) globalScope.get(leftstring) < (int) globalScope.get(rightstring)) {
-                        runTotal(statementChoices.getChild(4));
+                if (RightIdOrNumber == 1) {
+                    while ((int) extendScope.get(leftstring) < (int) extendScope.get(rightstring)) {
+                        runTotal(statementChoices.getChild(4),extendScope);
                     }
                 }
             }
             if (minddle == 2) {
-                if (rightgrement == 2) {
-                    while ((int) globalScope.get(leftstring) == rightnumber) {
-                        runTotal(statementChoices.getChild(4));
+                if (RightIdOrNumber == 2) {
+                    while ((int) extendScope.get(leftstring) == rightNumber) {
+                        runTotal(statementChoices.getChild(4),extendScope);
                     }
                 }
-                if (rightgrement == 1) {
-                    while (globalScope.get(leftstring).equals(globalScope.get(rightstring))) {
-                        runTotal(statementChoices.getChild(4));
+                if (RightIdOrNumber == 1) {
+                    while (extendScope.get(leftstring).equals(extendScope.get(rightstring))) {
+                        runTotal(statementChoices.getChild(4),extendScope);
                     }
                 }
             }
         }
-        if (lefttgrement == 1) {
+        if (leftIdOrNumber == 1) {
             if (minddle == 1) {
-                while (left < (int) globalScope.get(rightstring)) {
-                    runTotal(statementChoices.getChild(4));
+                while (leftNumber < (int) extendScope.get(rightstring)) {
+                    runTotal(statementChoices.getChild(4),extendScope);
                 }
             }
             if (minddle == 2) {
-                while (left == (int) globalScope.get(rightstring)) {
-                    runTotal(statementChoices.getChild(4));
+                while (leftNumber == (int) extendScope.get(rightstring)) {
+                    runTotal(statementChoices.getChild(4),extendScope);
                 }
             }
         }
