@@ -1,4 +1,5 @@
 import lib.ast.ASTNode;
+import lib.ast.EpsilonNode;
 import lib.ast.InnerNode;
 import lib.ast.LeafNode;
 
@@ -18,11 +19,8 @@ public class PoohInterpreter {
     public void run(ASTNode program) {
         runTotal(program,globalScope);
     }
-    public void runTotal(ASTNode program,Map<String, Object> extendScope){
+    public void runTotal(ASTNode program,Map<String, Object>extendScope){
         InnerNode father = (InnerNode) program;
-        if (father.getAstName().equals("<block>")) {
-            runTotal(father.getChild(1));
-        }
         for (ASTNode child : father.getChildren()) {
             try {
                 InnerNode boy = (InnerNode) child;
@@ -31,193 +29,37 @@ public class PoohInterpreter {
             }
             InnerNode boy = (InnerNode) child;
             if (boy.getAstName().equals("<program>")) {
-                runTotal(boy);
+                runTotal(boy,extendScope);
             }
             if (boy.getAstName().equals("<statement>")) {
-                InnerNode wwName = (InnerNode) boy.getChild(0);
-                if (wwName.getAstName().equals("<assign-statement>")) {
-                    assignStatement(wwName,globalScope);
+                InnerNode statementChoices = (InnerNode) boy.getChild(0);
+                if (statementChoices.getAstName().equals("<assign-statement>")) {
+                    assignStatement(statementChoices,extendScope);
                 }
-                if (wwName.getAstName().equals("<if-statement>")) {
-                    int left = 0;
-                    InnerNode expr = (InnerNode) wwName.getChild(2);
-                    LeafNode numberorid = (LeafNode) expr.getChild(0).getChild(0);
-                    if (numberorid.getTokenTag().equals("NUMBER")) {
-                        left = Integer.parseInt(numberorid.getTokenText());
-                    }
-                    if (numberorid.getTokenTag().equals("ID")) {
-                        left = (int) globalScope.get(numberorid.getTokenText());
-                    }
-                    InnerNode exprmoreterm = (InnerNode) expr.getChild(1);
-                    int ringhtg = 0;
-                    int ringhtcount = 0;
-                    try {
-                        LeafNode exprmoretermleafnode = (LeafNode) exprmoreterm.getChild(0);
-                    } catch (Exception e) {
-                        break;
-                    }
-                    LeafNode exprmoretermleafnode = (LeafNode) exprmoreterm.getChild(0);
-                    if (exprmoretermleafnode.getTokenTag().equals("LESS_THAN")) {
-                        ringhtg = 1;
-                    }
-                    if (exprmoretermleafnode.getTokenTag().equals("EQUAL_TEST")) {
-                        ringhtg = 2;
-                    }
-                    LeafNode exprmoretermsexper00 = (LeafNode) exprmoreterm.getChild(1).getChild(0);
-                    if (exprmoretermsexper00.getTokenTag().equals("ID")) {
-                        ringhtcount = (int) globalScope.get(exprmoretermsexper00.getTokenText());
-                    }
-                    if (exprmoretermsexper00.getTokenTag().equals("NUMBER")) {
-                        ringhtcount = Integer.parseInt(exprmoretermsexper00.getTokenText());
-                    }
-                    if (ringhtg == 1) {
-                        if (left < ringhtcount) {
-                            runTotal(wwName.getChild(4));
-                        } else {
-                            runTotal(wwName.getChild(6));
-                        }
-                    }
-                    if (ringhtg == 2) {
-                        if (left == ringhtcount) {
-                            runTotal(wwName.getChild(4));
-                        } else {
-                            runTotal(wwName.getChild(6));
-                        }
-                    }
+                if (statementChoices.getAstName().equals("<if-statement>")) {
+                    ifStatement(statementChoices,extendScope);
                 }
-                if (wwName.getAstName().equals("<while-statement>")) {
-                    int countttttt = 0;
-                    int lefttgrement = 0;
-                    int minddle = 0;
-                    int rightgrement = 0;
-                    int left = 0;
-                    String leftstring = null;
-                    int rightnumber = 0;
-                    String rightstring = null;
-                    InnerNode expr = (InnerNode) wwName.getChild(2);
-                    LeafNode numberorid = (LeafNode) expr.getChild(0).getChild(0);
-                    if (numberorid.getTokenTag().equals("NUMBER")) {
-                        left = Integer.parseInt(numberorid.getTokenText());
-                        lefttgrement = 1;
-                    }
-                    if (numberorid.getTokenTag().equals("ID")) {
-                        leftstring = numberorid.getTokenText();
-                        lefttgrement = 2;
-                    }
-                    InnerNode exprmoreterm = (InnerNode) expr.getChild(1);
-                    try {
-                        LeafNode exprmoretermleafnode = (LeafNode) exprmoreterm.getChild(0);
-                    } catch (Exception e) {
-                        break;
-                    }
-                    LeafNode exprmoretermleafnode = (LeafNode) exprmoreterm.getChild(0);
-                    if (exprmoretermleafnode.getTokenTag().equals("LESS_THAN")) {
-                        minddle = 1;
-                    }
-                    if (exprmoretermleafnode.getTokenTag().equals("EQUAL_TEST")) {
-                        minddle = 2;
-                    }
-                    LeafNode exprmoretermsexper00 = (LeafNode) exprmoreterm.getChild(1).getChild(0);
-                    if (exprmoretermsexper00.getTokenTag().equals("ID")) {
-                        rightgrement = 1;
-                        rightstring = exprmoretermsexper00.getTokenText();
-                    }
-                    if (exprmoretermsexper00.getTokenTag().equals("NUMBER")) {
-                        rightgrement = 2;
-                        rightnumber = Integer.parseInt(exprmoretermsexper00.getTokenText());
-                    }
-                    if (lefttgrement == 2) {
-                        if (minddle == 1) {
-                            if (rightgrement == 2) {
-                                while ((int) globalScope.get(leftstring) < rightnumber) {
-                                    runTotal(wwName.getChild(4));
-                                }
-                            }
-                            if (rightgrement == 1) {
-                                while ((int) globalScope.get(leftstring) < (int) globalScope.get(rightstring)) {
-                                    runTotal(wwName.getChild(4));
-                                }
-                            }
-                        }
-                        if (minddle == 2) {
-                            if (rightgrement == 2) {
-                                while ((int) globalScope.get(leftstring) == rightnumber) {
-                                    runTotal(wwName.getChild(4));
-                                }
-                            }
-                            if (rightgrement == 1) {
-                                while (globalScope.get(leftstring).equals(globalScope.get(rightstring))) {
-                                    runTotal(wwName.getChild(4));
-                                }
-                            }
-                        }
-                    }
-                    if (lefttgrement == 1) {
-                        if (minddle == 1) {
-                            while (left < (int) globalScope.get(rightstring)) {
-                                runTotal(wwName.getChild(4));
-                            }
-                        }
-                        if (minddle == 2) {
-                            while (left == (int) globalScope.get(rightstring)) {
-                                runTotal(wwName.getChild(4));
-                            }
-                        }
-                    }
+                if (statementChoices.getAstName().equals("<while-statement>")) {
+                    whileStatement(statementChoices,extendScope);
                 }
-                if (wwName.getAstName().equals("<print-statement>")) {
-                    InnerNode expr = (InnerNode) wwName.getChild(1);
-                    try {
-                        LeafNode term = (LeafNode) expr.getChild(0).getChild(0);
-                    } catch (Exception e) {
-                        InnerNode term = (InnerNode) expr.getChild(0).getChild(0);
-                        LeafNode funcID = (LeafNode) term.getChild(1);
-                        String funcIDScope = funcID.getTokenText() + "Scope";
-                        Object funcIDScopeCheck = globalScope.get(funcIDScope);
-                        Map<String, Object> fatherScope = (Map<String, Object>) funcIDScopeCheck;
-                        System.out.println(runFunctionCall(term, fatherScope));
-                        return;
-                    }
-                    LeafNode term = (LeafNode) expr.getChild(0).getChild(0);
-                    if (term.getTokenTag().equals("NUMBER")) {
-                        System.out.println(Integer.parseInt(term.getTokenText()));
-                    }
-                    if (term.getTokenTag().equals("ID")) {
-                        System.out.println(globalScope.get(term.getTokenText()));
-                    }
+                if (statementChoices.getAstName().equals("<print-statement>")) {
+                    printStatement(statementChoices,extendScope);
                 }
-                if (wwName.getAstName().equals("<function-def>")) {
-                    LeafNode funcID = (LeafNode) wwName.getChild(1);
+                if (statementChoices.getAstName().equals("<function-def>")) {
+                    LeafNode funcID = (LeafNode) statementChoices.getChild(1);
                     String funcIDScope = funcID.getTokenText() + "Scope";
-                    globalScope.put(funcID.getTokenText(), (InnerNode) wwName);
+                    globalScope.put(funcID.getTokenText(), (InnerNode) statementChoices);
                     globalScope.put(funcIDScope, new HashMap<String, Object>());
                 }
-                if (wwName.getAstName().equals("<function-call>")) {
-                    LeafNode funcID = (LeafNode) wwName.getChild(1);
+                if (statementChoices.getAstName().equals("<function-call>")) {
+                    LeafNode funcID = (LeafNode) statementChoices.getChild(1);
                     String funcIDScope = funcID.getTokenText() + "Scope";
                     Object funcIDScopeCheck = globalScope.get(funcIDScope);
                     Map<String, Object> fatherScope = (Map<String, Object>) funcIDScopeCheck;
-                    runFunctionCall((ASTNode) wwName, fatherScope);
+                    runFunctionCall((ASTNode) statementChoices, fatherScope);
                 }
             }
         }
-//        InnerNode father = (InnerNode) program;
-//        if (father.getAstName().equals("<block>")) {
-//            run2(program.getChild(1), functionScope);
-//        }
-//        for (ASTNode child : father.getChildren()) {
-//            try {
-//                InnerNode boy = (InnerNode) child;
-//            } catch (Exception e) {
-//                return;
-//            }
-//            InnerNode boy = (InnerNode) child;
-//            if (boy.getAstName().equals("<program>")) {
-//                run2(boy, functionScope);
-//            }
-//            if (boy.getAstName().equals("<statement>")) {
-//                InnerNode wwName = (InnerNode) boy.getChild(0);
-//                if (wwName.getAstName().equals("<assign-statement>")) {
 //                    LeafNode ID = (LeafNode) wwName.getChild(0).getChild(0);
 //                    String namename = ID.getTokenText();
 //                    InnerNode exprOrclosure = (InnerNode) wwName.getChild(1).getChild(0);
@@ -678,4 +520,152 @@ public class PoohInterpreter {
         return count;
     }
     public void closure(){}
+    public void printStatement(InnerNode statementChoices, Map<String, Object> functionScope){
+        InnerNode expr = (InnerNode) statementChoices.getChild(1);
+        try {
+            LeafNode term = (LeafNode) expr.getChild(0).getChild(0);
+        } catch (Exception e) {
+            InnerNode term = (InnerNode) expr.getChild(0).getChild(0);
+            LeafNode funcID = (LeafNode) term.getChild(1);
+            String funcIDScope = funcID.getTokenText() + "Scope";
+            Object funcIDScopeCheck = globalScope.get(funcIDScope);
+            Map<String, Object> fatherScope = (Map<String, Object>) funcIDScopeCheck;
+            System.out.println(runFunctionCall(term, fatherScope));
+            return;
+        }
+        LeafNode term = (LeafNode) expr.getChild(0).getChild(0);
+        if (term.getTokenTag().equals("NUMBER")) {
+            System.out.println(Integer.parseInt(term.getTokenText()));
+        }
+        if (term.getTokenTag().equals("ID")) {
+            System.out.println(globalScope.get(term.getTokenText()));
+        }
+    }
+    public void ifStatement(InnerNode statementChoices, Map<String, Object> functionScope){
+        int left = 0;
+        InnerNode expr = (InnerNode) statementChoices.getChild(2);
+        LeafNode numberorid = (LeafNode) expr.getChild(0).getChild(0);
+        if (numberorid.getTokenTag().equals("NUMBER")) {
+            left = Integer.parseInt(numberorid.getTokenText());
+        }
+        if (numberorid.getTokenTag().equals("ID")) {
+            left = (int) globalScope.get(numberorid.getTokenText());
+        }
+        InnerNode exprmoreterm = (InnerNode) expr.getChild(1);
+        int ringhtg = 0;
+        int ringhtcount = 0;
+        try {
+            LeafNode exprmoretermleafnode = (LeafNode) exprmoreterm.getChild(0);
+        } catch (Exception e) {
+            break;
+        }
+        LeafNode exprmoretermleafnode = (LeafNode) exprmoreterm.getChild(0);
+        if (exprmoretermleafnode.getTokenTag().equals("LESS_THAN")) {
+            ringhtg = 1;
+        }
+        if (exprmoretermleafnode.getTokenTag().equals("EQUAL_TEST")) {
+            ringhtg = 2;
+        }
+        LeafNode exprmoretermsexper00 = (LeafNode) exprmoreterm.getChild(1).getChild(0);
+        if (exprmoretermsexper00.getTokenTag().equals("ID")) {
+            ringhtcount = (int) globalScope.get(exprmoretermsexper00.getTokenText());
+        }
+        if (exprmoretermsexper00.getTokenTag().equals("NUMBER")) {
+            ringhtcount = Integer.parseInt(exprmoretermsexper00.getTokenText());
+        }
+        if (ringhtg == 1) {
+            if (left < ringhtcount) {
+                runTotal(statementChoices.getChild(4));
+            } else {
+                runTotal(statementChoices.getChild(6));
+            }
+        }
+        if (ringhtg == 2) {
+            if (left == ringhtcount) {
+                runTotal(statementChoices.getChild(4));
+            } else {
+                runTotal(statementChoices.getChild(6));
+            }
+        }
+    }
+    public void whileStatement(InnerNode statementChoices, Map<String, Object> functionScope){
+        int countttttt = 0;
+        int lefttgrement = 0;
+        int minddle = 0;
+        int rightgrement = 0;
+        int left = 0;
+        String leftstring = null;
+        int rightnumber = 0;
+        String rightstring = null;
+        InnerNode expr = (InnerNode) statementChoices.getChild(2);
+        LeafNode numberorid = (LeafNode) expr.getChild(0).getChild(0);
+        if (numberorid.getTokenTag().equals("NUMBER")) {
+            left = Integer.parseInt(numberorid.getTokenText());
+            lefttgrement = 1;
+        }
+        if (numberorid.getTokenTag().equals("ID")) {
+            leftstring = numberorid.getTokenText();
+            lefttgrement = 2;
+        }
+        InnerNode exprmoreterm = (InnerNode) expr.getChild(1);
+        try {
+            LeafNode exprmoretermleafnode = (LeafNode) exprmoreterm.getChild(0);
+        } catch (Exception e) {
+            break;
+        }
+        LeafNode exprmoretermleafnode = (LeafNode) exprmoreterm.getChild(0);
+        if (exprmoretermleafnode.getTokenTag().equals("LESS_THAN")) {
+            minddle = 1;
+        }
+        if (exprmoretermleafnode.getTokenTag().equals("EQUAL_TEST")) {
+            minddle = 2;
+        }
+        LeafNode exprmoretermsexper00 = (LeafNode) exprmoreterm.getChild(1).getChild(0);
+        if (exprmoretermsexper00.getTokenTag().equals("ID")) {
+            rightgrement = 1;
+            rightstring = exprmoretermsexper00.getTokenText();
+        }
+        if (exprmoretermsexper00.getTokenTag().equals("NUMBER")) {
+            rightgrement = 2;
+            rightnumber = Integer.parseInt(exprmoretermsexper00.getTokenText());
+        }
+        if (lefttgrement == 2) {
+            if (minddle == 1) {
+                if (rightgrement == 2) {
+                    while ((int) globalScope.get(leftstring) < rightnumber) {
+                        runTotal(statementChoices.getChild(4));
+                    }
+                }
+                if (rightgrement == 1) {
+                    while ((int) globalScope.get(leftstring) < (int) globalScope.get(rightstring)) {
+                        runTotal(statementChoices.getChild(4));
+                    }
+                }
+            }
+            if (minddle == 2) {
+                if (rightgrement == 2) {
+                    while ((int) globalScope.get(leftstring) == rightnumber) {
+                        runTotal(statementChoices.getChild(4));
+                    }
+                }
+                if (rightgrement == 1) {
+                    while (globalScope.get(leftstring).equals(globalScope.get(rightstring))) {
+                        runTotal(statementChoices.getChild(4));
+                    }
+                }
+            }
+        }
+        if (lefttgrement == 1) {
+            if (minddle == 1) {
+                while (left < (int) globalScope.get(rightstring)) {
+                    runTotal(statementChoices.getChild(4));
+                }
+            }
+            if (minddle == 2) {
+                while (left == (int) globalScope.get(rightstring)) {
+                    runTotal(statementChoices.getChild(4));
+                }
+            }
+        }
+    }
 }
