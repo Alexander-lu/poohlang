@@ -628,48 +628,15 @@ public class PoohInterpreter {
         }
         return count;
     }
-    public void closure(){}
+
     public void assignStatement(InnerNode assign,Map<String, Object> functionScope){
         LeafNode ID = (LeafNode) assign.getChild(0).getChild(0);
         String leftID = ID.getTokenText();
         InnerNode exprOrclosure = (InnerNode) assign.getChild(1).getChild(0);
-        int count = 0;
         if (exprOrclosure.getAstName().equals("<expr>")) {
-            InnerNode exprtermm = (InnerNode) exprOrclosure.getChild(0);
-            LeafNode exprterm = (LeafNode) exprtermm.getChild(0);
-            if (exprterm.getTokenTag().equals("ID")) {
-                count = (int) globalScope.get(exprterm.getTokenText());
-            }
-            if (exprterm.getTokenTag().equals("NUMBER")) {
-                count = Integer.parseInt(exprterm.getTokenText());
-            }
-            InnerNode exprmoreterm = (InnerNode) exprOrclosure.getChild(1);
-            while (true) {
-                try {
-                    LeafNode exprmoretermleafnode = (LeafNode) exprmoreterm.getChild(0);
-                } catch (Exception e) {
-                    break;
-                }
-                LeafNode exprmoretermleafnode = (LeafNode) exprmoreterm.getChild(0);
-
-                if (exprmoretermleafnode.getTokenTag().equals("epsilon")) {
-                    break;
-                }
-                InnerNode exprmoretermsexper00 = (InnerNode) exprmoreterm.getChild(1).getChild(0);
-                LeafNode exprmoretermsexper0 = (LeafNode) exprmoretermsexper00.getChild(0);
-                if (exprmoretermsexper0.getTokenTag().equals("ID")) {
-                    count += (int) globalScope.get(exprmoretermsexper0.getTokenText());
-                }
-                if (exprmoretermsexper0.getTokenTag().equals("NUMBER")) {
-                    count += Integer.parseInt(exprmoretermsexper0.getTokenText());
-                }
-                InnerNode exprmoretermmoreterm = (InnerNode) exprmoreterm.getChild(1).getChild(1);
-                exprmoreterm = exprmoretermmoreterm;
-            }
-            globalScope.remove(leftID);
-            globalScope.put(leftID, count);
-        }
-        if (exprOrclosure.getAstName().equals("<closure>")) {
+            functionScope.remove(leftID);
+            functionScope.put(leftID,assignExpr(exprOrclosure,functionScope));
+        }else if (exprOrclosure.getAstName().equals("<closure>")) {
             String funcIDScope = leftID + "Scope";
             globalScope.remove(funcIDScope);
             globalScope.put(funcIDScope, new HashMap<String, Object>());
@@ -677,4 +644,40 @@ public class PoohInterpreter {
             globalScope.put(leftID, exprOrclosure);
         }
     }
+    public int assignExpr(InnerNode exprOrclosure, Map<String, Object> functionScope){
+        int count = 0;
+        InnerNode exprtermm = (InnerNode) exprOrclosure.getChild(0);
+        LeafNode exprterm = (LeafNode) exprtermm.getChild(0);
+        if (exprterm.getTokenTag().equals("ID")) {
+            count = (int) globalScope.get(exprterm.getTokenText());
+        }
+        if (exprterm.getTokenTag().equals("NUMBER")) {
+            count = Integer.parseInt(exprterm.getTokenText());
+        }
+        InnerNode exprmoreterm = (InnerNode) exprOrclosure.getChild(1);
+        while (true) {
+            try {
+                LeafNode exprmoretermleafnode = (LeafNode) exprmoreterm.getChild(0);
+            } catch (Exception e) {
+                break;
+            }
+            LeafNode exprmoretermleafnode = (LeafNode) exprmoreterm.getChild(0);
+
+            if (exprmoretermleafnode.getTokenTag().equals("epsilon")) {
+                break;
+            }
+            InnerNode exprmoretermsexper00 = (InnerNode) exprmoreterm.getChild(1).getChild(0);
+            LeafNode exprmoretermsexper0 = (LeafNode) exprmoretermsexper00.getChild(0);
+            if (exprmoretermsexper0.getTokenTag().equals("ID")) {
+                count += (int) globalScope.get(exprmoretermsexper0.getTokenText());
+            }
+            if (exprmoretermsexper0.getTokenTag().equals("NUMBER")) {
+                count += Integer.parseInt(exprmoretermsexper0.getTokenText());
+            }
+            InnerNode exprmoretermmoreterm = (InnerNode) exprmoreterm.getChild(1).getChild(1);
+            exprmoreterm = exprmoretermmoreterm;
+        }
+        return count;
+    }
+    public void closure(){}
 }
