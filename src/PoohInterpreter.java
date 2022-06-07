@@ -7,7 +7,6 @@ import javax.imageio.plugins.tiff.TIFFDirectory;
 import java.util.*;
 
 public class PoohInterpreter {
-    boolean s = false;
     Map<String, Object> globalScope = new HashMap<>();
     /**
      * 运行一个POOH程序
@@ -221,20 +220,7 @@ public class PoohInterpreter {
         return functionStatements((InnerNode) statementChoices.getChild(5), functionDefScope);
     }
     public void printStatement(InnerNode statementChoices, Map<String, Object> extendScope){
-        if(assignExpr((InnerNode) statementChoices.getChild(1),extendScope) == 1){
-            if (s) {
-                System.out.println(assignExpr((InnerNode) statementChoices.getChild(1),extendScope)+1);
-                s=false;
-            }else {
-                System.out.println(assignExpr((InnerNode) statementChoices.getChild(1),extendScope));
-                s = true;
-            }
-        } else if(assignExpr((InnerNode) statementChoices.getChild(1),extendScope) == 2){
-            System.out.println(1);
-        }else {
-            System.out.println(assignExpr((InnerNode) statementChoices.getChild(1),extendScope));
-        }
-
+    System.out.println(assignExpr((InnerNode) statementChoices.getChild(1),extendScope));
     }
     public void ifStatement(InnerNode statementChoices, Map<String, Object> functionScope){
             InnerNode expr = (InnerNode) statementChoices.getChild(2);

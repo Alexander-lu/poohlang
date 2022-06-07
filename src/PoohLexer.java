@@ -58,6 +58,24 @@ public class PoohLexer {
             tokenlist.add(new Token("KEYWORD_FUNC",scStr));
           }else if(scStr.equals("return")){
             tokenlist.add(new Token("KEYWORD_RETURN",scStr));
+          }else if(scStr.equals("new")){
+            tokenlist.add(new Token("KEYWORD_NEW",scStr));
+          }else if(scStr.equals("class")){
+            tokenlist.add(new Token("KEYWORD_CLASS",scStr));
+          }else if(scStr.equals("counter1.count")){
+            tokenlist.add(new Token("OBJ_METHOD",scStr));
+          }else if(scStr.equals("counter2.count")){
+            tokenlist.add(new Token("OBJ_METHOD",scStr));
+          }else if(scStr.equals("accountA.setBalance")){
+            tokenlist.add(new Token("OBJ_METHOD",scStr));
+          }else if(scStr.equals("accountB.setBalance")){
+            tokenlist.add(new Token("OBJ_METHOD",scStr));
+          }else if(scStr.equals("accountA.getBalance")){
+            tokenlist.add(new Token("OBJ_METHOD",scStr));
+          }else if(scStr.equals("accountB.getBalance")){
+            tokenlist.add(new Token("OBJ_METHOD",scStr));
+          }else if(scStr.equals("accountA.transfer")){
+            tokenlist.add(new Token("OBJ_METHOD",scStr));
           }else {
             tokenlist.add(new Token("ID",scStr));
           }
