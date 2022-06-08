@@ -349,8 +349,7 @@ public class PoohInterpreter {
             }
         }
     }
-    public int functionDef(InnerNode statementChoices, Map<String, Object> extendScope, List<Integer> arglisttotal){
-            Map<String, Object> functionDefScope = new HashMap<>();
+    public int functionDef(InnerNode statementChoices, Map<String, Object> functionDefScope, List<Integer> arglisttotal){
             InnerNode paramlist = (InnerNode) statementChoices.getChild(3);
             int xiabiao = 0;
         while (true) {
@@ -378,7 +377,6 @@ public class PoohInterpreter {
                     break;
                 }
             }
-            functionDefScope.putAll(extendScope);
             return functionStatements((InnerNode) statementChoices.getChild(6), functionDefScope);
     }
     public int functionCall(InnerNode functionCall, Map<String, Object> extendScope,String leftID) {
@@ -479,16 +477,16 @@ public class PoohInterpreter {
         return 0;
     }
     public int funcCalSfxModeObjMtd(InnerNode funcCalSfx, Map<String, Object> extendScope) {
-        Map<String, Object> functionCallScope = new HashMap<String, Object>();
         LeafNode ObjMethod = (LeafNode) funcCalSfx.getChild(0);
         String tokenText = ObjMethod.getTokenText();
         String[] split = tokenText.split("\\.");
         String className =split[0];
         String methodName=split[1];
-        InnerNode classDef = (InnerNode) extendScope.get(className);
-        InnerNode funcDef = (InnerNode)funcCalFindMtd(classDef,extendScope,methodName);
-        classFields(classDef,extendScope);
+        ClassNode classDefClassNode = (ClassNode) extendScope.get(className);
+        InnerNode classDef=classDefClassNode.getMethods();
+        Map<String,Object> functionCallScope = classDefClassNode.getFields();
         functionCallScope.putAll(extendScope);
+        InnerNode funcDef = (InnerNode)funcCalFindMtd(classDef,functionCallScope,methodName);
         List<Integer> arglisttotal = new ArrayList<Integer>();
         InnerNode arglist = (InnerNode) funcCalSfx.getChild(2);
         while (true) {
@@ -500,7 +498,7 @@ public class PoohInterpreter {
             LeafNode Number1 = (LeafNode) arglist.getChild(0).getChild(0).getChild(0);
             int numberonee = 0;
             if (Number1.getTokenTag().equals("ID")) {
-                numberonee = (int) extendScope.get(Number1.getTokenText());
+                numberonee = (int) functionCallScope.get(Number1.getTokenText());
             }
             if (Number1.getTokenTag().equals("NUMBER")) {
                 numberonee = Integer.parseInt(Number1.getTokenText());
@@ -519,7 +517,7 @@ public class PoohInterpreter {
                 InnerNode exprmoretermsexper00 = (InnerNode) exprmoreterm.getChild(1).getChild(0);
                 LeafNode exprmoretermsexper0 = (LeafNode) exprmoretermsexper00.getChild(0);
                 if (exprmoretermsexper0.getTokenTag().equals("ID")) {
-                    numberonee += (int) extendScope.get(exprmoretermsexper0.getTokenText());
+                    numberonee += (int) functionCallScope.get(exprmoretermsexper0.getTokenText());
                 }
                 if (exprmoretermsexper0.getTokenTag().equals("NUMBER")) {
                     numberonee += Integer.parseInt(exprmoretermsexper0.getTokenText());
@@ -541,7 +539,6 @@ public class PoohInterpreter {
             }
         }
         if (funcDef.getAstName().equals("<function-def>")) {
-
             return functionDef(funcDef, functionCallScope, arglisttotal);
         }
         if (funcDef.getAstName().equals("<closure>")) {
@@ -568,7 +565,12 @@ public class PoohInterpreter {
     public int funcCalMode2(InnerNode functionCall, Map<String, Object> extendScope,String leftID) {
         LeafNode ID = (LeafNode) functionCall.getChild(1);
         String IdName = ID.getTokenText();
-        globalScope.put(leftID,(InnerNode)globalScope.get(IdName));
+        InnerNode classDef =(InnerNode)globalScope.get(IdName);
+        Map<String, Object> h = new HashMap<>();
+        h.putAll(extendScope);
+        classFields(classDef,h);
+        int a=1;
+        globalScope.put(leftID,new ClassNode((InnerNode)globalScope.get(IdName),h));
         return 0;
     }
 }
