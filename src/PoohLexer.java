@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class PoohLexer {
   /**
@@ -62,35 +63,7 @@ public class PoohLexer {
             tokenlist.add(new Token("KEYWORD_NEW",scStr));
           }else if(scStr.equals("class")){
             tokenlist.add(new Token("KEYWORD_CLASS",scStr));
-          }else if(scStr.equals("counter1.count")){
-            tokenlist.add(new Token("OBJ_METHOD",scStr));
-          }else if(scStr.equals("counter2.count")){
-            tokenlist.add(new Token("OBJ_METHOD",scStr));
-          }else if(scStr.equals("accountA.setBalance")){
-            tokenlist.add(new Token("OBJ_METHOD",scStr));
-          }else if(scStr.equals("accountB.setBalance")){
-            tokenlist.add(new Token("OBJ_METHOD",scStr));
-          }else if(scStr.equals("accountA.getBalance")){
-            tokenlist.add(new Token("OBJ_METHOD",scStr));
-          } else if(scStr.equals("thatAccount.getBalance")){
-            tokenlist.add(new Token("OBJ_METHOD",scStr));
-          }else if(scStr.equals("thatAccount.setBalance")){
-            tokenlist.add(new Token("OBJ_METHOD",scStr));
-          }else if(scStr.equals("accountA.setBalance")){
-            tokenlist.add(new Token("OBJ_METHOD",scStr));
-          }else if(scStr.equals("accountB.setBalance")){
-            tokenlist.add(new Token("OBJ_METHOD",scStr));
-          }else if(scStr.equals("accountA.getBalance")){
-            tokenlist.add(new Token("OBJ_METHOD",scStr));
-          }else if(scStr.equals("accountB.getBalance")){
-            tokenlist.add(new Token("OBJ_METHOD",scStr));
-          }else if(scStr.equals("accountA.transfer")){
-            tokenlist.add(new Token("OBJ_METHOD",scStr));
-          }else if(scStr.equals("counter1.setN")){
-            tokenlist.add(new Token("OBJ_METHOD",scStr));
-          }else if(scStr.equals("accountB.getBalance")){
-            tokenlist.add(new Token("OBJ_METHOD",scStr));
-          }else if(scStr.equals("accountA.transfer")){
+          } else if(Pattern.matches("\\w*\\.\\w*", scStr)){
             tokenlist.add(new Token("OBJ_METHOD",scStr));
           }else {
             tokenlist.add(new Token("ID",scStr));

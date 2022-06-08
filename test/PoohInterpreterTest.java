@@ -41,8 +41,8 @@ class PoohInterpreterTest {
 
   @Test
   void testOOP() {
-    runTest("OOPSample1s.pooh", "OOPSample1s.out");
-//    runTest("OOPSample1.pooh", "OOPSample1.out");
+//    runTest("OOPSample1s.pooh", "OOPSample1s.out");
+    runTest("OOPSample1.pooh", "OOPSample1.out");
 //    runTest("OOPSample2.pooh", "OOPSample2.out");
   }
 

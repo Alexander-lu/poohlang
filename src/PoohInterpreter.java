@@ -24,7 +24,6 @@ public class PoohInterpreter {
             } catch (Exception e) {
                 return;
             }
-
             InnerNode boy = (InnerNode) child;
             if (boy.getAstName().equals("<program>")) {
                 runTotal(boy,extendScope);
@@ -88,7 +87,7 @@ public class PoohInterpreter {
                 try {
                     count = (int) functionScope.get(exprtermIDorNumber.getTokenText());
                 }catch (Exception e){
-                    List<Integer> arglisttotal = new ArrayList<Integer>();
+                    List<IntegerOrClassNode> arglisttotal = new ArrayList<IntegerOrClassNode>();
                     closure((InnerNode) functionScope.get(exprtermIDorNumber.getTokenText()),functionScope,arglisttotal);
                 }
             }
@@ -141,6 +140,10 @@ public class PoohInterpreter {
             }
             InnerNode child = (InnerNode)exprOrclosure.getChild(0).getChild(0);
             if (child.getAstName().equals("<function-call>")) {
+                if(exprOrclosure.getChild(1).getChild(0).getClass().getName().equals(LeafNode.class.getName())){
+                    functionScope.put(leftID,assignExpr(exprOrclosure,functionScope));
+                    return;
+                }
                 functionCall(child,functionScope,leftID);
             }
         }else if (exprOrclosure.getAstName().equals("<closure>")) {
@@ -180,19 +183,31 @@ public class PoohInterpreter {
                 break;
             }
             InnerNode exprmoretermsexper00 = (InnerNode) exprmoreterm.getChild(1).getChild(0);
-            LeafNode exprmoretermsexper0 = (LeafNode) exprmoretermsexper00.getChild(0);
-            if (exprmoretermsexper0.getTokenTag().equals("ID")) {
-                count += (int) globalScope.get(exprmoretermsexper0.getTokenText());
+
+
+            boolean ifFuncCalll = true;
+            try {
+                LeafNode exprmoretermsexper0 = (LeafNode) exprmoretermsexper00.getChild(0);
+            }catch (Exception e){
+                ifFuncCalll = false;
+                InnerNode funcTionCall = (InnerNode) exprmoretermsexper00.getChild(0);
+                count = functionCall(funcTionCall,extendScope,"");
             }
-            if (exprmoretermsexper0.getTokenTag().equals("NUMBER")) {
-                count += Integer.parseInt(exprmoretermsexper0.getTokenText());
+            if(ifFuncCalll){
+                LeafNode exprmoretermsexper0 = (LeafNode) exprmoretermsexper00.getChild(0);
+                if (exprmoretermsexper0.getTokenTag().equals("ID")) {
+                    count += (int) extendScope.get(exprmoretermsexper0.getTokenText());
+                }
+                if (exprmoretermsexper0.getTokenTag().equals("NUMBER")) {
+                    count += Integer.parseInt(exprmoretermsexper0.getTokenText());
+                }
             }
             InnerNode exprmoretermmoreterm = (InnerNode) exprmoreterm.getChild(1).getChild(1);
             exprmoreterm = exprmoretermmoreterm;
         }
         return count;
     }
-    public int closure(InnerNode statementChoices, Map<String, Object> extendScope,List<Integer> arglisttotal){
+    public int closure(InnerNode statementChoices, Map<String, Object> extendScope,List<IntegerOrClassNode> arglisttotal){
         Map<String, Object> functionDefScope = new HashMap<>();
         InnerNode paramlist = (InnerNode) statementChoices.getChild(2);
         int xiabiao = 0;
@@ -339,7 +354,7 @@ public class PoohInterpreter {
         if (leftIdOrNumber == 1) {
             if (minddle == 1) {
                 while (leftNumber < (int) extendScope.get(rightstring)) {
-                    runTotal(statementChoices.getChild(4),extendScope);
+                    runTotal(statementChoices.getChild(4).getChild(1),extendScope);
                 }
             }
             if (minddle == 2) {
@@ -349,7 +364,7 @@ public class PoohInterpreter {
             }
         }
     }
-    public int functionDef(InnerNode statementChoices, Map<String, Object> functionDefScope, List<Integer> arglisttotal){
+    public int functionDef(InnerNode statementChoices, Map<String, Object> functionDefScope, List<IntegerOrClassNode> arglisttotal){
             InnerNode paramlist = (InnerNode) statementChoices.getChild(3);
             int xiabiao = 0;
         while (true) {
@@ -362,7 +377,12 @@ public class PoohInterpreter {
                 if (ifEPSIlON.getTokenTag().equals("epsilon")) {
                     break;
                 } else {
-                    functionDefScope.put(ifEPSIlON.getTokenText(), arglisttotal.get(xiabiao));
+                    if(arglisttotal.get(xiabiao).getClassDef()==null){
+                        functionDefScope.put(ifEPSIlON.getTokenText(),arglisttotal.get(xiabiao).getNumber());
+                    }else{
+                        functionDefScope.put(ifEPSIlON.getTokenText(),arglisttotal.get(xiabiao).getClassDef());
+                    }
+
                     xiabiao++;
                 }
                 try {
@@ -412,11 +432,17 @@ public class PoohInterpreter {
             return (int) extendScope.get(ID.getTokenText());
         }
         InnerNode funcDef = (InnerNode) extendScope.get(ID.getTokenText());
+        if (funcDef == null) {
+            ClassNode   classDefClassNode = (ClassNode)extendScope.get(extendScope.get("thatAccount"));
+            InnerNode classDef=classDefClassNode.getMethods();
+            funcDef = (InnerNode)funcCalFindMtd(classDef,extendScope,ID.getTokenText());
+        }
         Map<String, Object> functionCallScope = new HashMap<String, Object>();
         functionCallScope.putAll(extendScope);
-        List<Integer> arglisttotal = new ArrayList<Integer>();
+        List<IntegerOrClassNode> arglisttotal = new ArrayList<IntegerOrClassNode>();
         InnerNode arglist = (InnerNode) funcCalSfx.getChild(2);
         while (true) {
+            IntegerOrClassNode integerOrClassNode = new IntegerOrClassNode();
             try {
                 InnerNode arglisttest = (InnerNode) arglist.getChild(0);
             } catch (Exception e) {
@@ -425,7 +451,16 @@ public class PoohInterpreter {
             LeafNode Number1 = (LeafNode) arglist.getChild(0).getChild(0).getChild(0);
             int numberonee = 0;
             if (Number1.getTokenTag().equals("ID")) {
-                numberonee = (int) extendScope.get(Number1.getTokenText());
+                boolean ifGo = true;
+                try {
+                    numberonee = (int) functionCallScope.get(Number1.getTokenText());
+                }catch (Exception e){
+                    ifGo=false;
+                    integerOrClassNode.setClassDef(Number1.getTokenText());
+                }
+                if (ifGo) {
+                    numberonee = (int) functionCallScope.get(Number1.getTokenText());
+                }
             }
             if (Number1.getTokenTag().equals("NUMBER")) {
                 numberonee = Integer.parseInt(Number1.getTokenText());
@@ -452,7 +487,8 @@ public class PoohInterpreter {
                 InnerNode exprmoretermmoreterm = (InnerNode) exprmoreterm.getChild(1).getChild(1);
                 exprmoreterm = exprmoretermmoreterm;
             }
-            arglisttotal.add(numberonee);
+            integerOrClassNode.setNumber(numberonee);
+            arglisttotal.add(integerOrClassNode);
             try {
                 LeafNode ifCOMMA = (LeafNode) arglist.getChild(1).getChild(0);
             } catch (Exception e) {
@@ -482,14 +518,20 @@ public class PoohInterpreter {
         String[] split = tokenText.split("\\.");
         String className =split[0];
         String methodName=split[1];
-        ClassNode classDefClassNode = (ClassNode) extendScope.get(className);
+        ClassNode classDefClassNode;
+        if (globalScope.containsKey(className)){
+            classDefClassNode = (ClassNode) globalScope.get(className);
+        }else {
+            classDefClassNode = (ClassNode) globalScope.get(extendScope.get(className));
+        }
         InnerNode classDef=classDefClassNode.getMethods();
         Map<String,Object> functionCallScope = classDefClassNode.getFields();
         functionCallScope.putAll(extendScope);
         InnerNode funcDef = (InnerNode)funcCalFindMtd(classDef,functionCallScope,methodName);
-        List<Integer> arglisttotal = new ArrayList<Integer>();
+        List<IntegerOrClassNode> arglisttotal = new ArrayList<IntegerOrClassNode>();
         InnerNode arglist = (InnerNode) funcCalSfx.getChild(2);
         while (true) {
+            IntegerOrClassNode integerOrClassNode = new IntegerOrClassNode();
             try {
                 InnerNode arglisttest = (InnerNode) arglist.getChild(0);
             } catch (Exception e) {
@@ -498,7 +540,17 @@ public class PoohInterpreter {
             LeafNode Number1 = (LeafNode) arglist.getChild(0).getChild(0).getChild(0);
             int numberonee = 0;
             if (Number1.getTokenTag().equals("ID")) {
-                numberonee = (int) functionCallScope.get(Number1.getTokenText());
+                boolean ifGo = true;
+                try {
+                    numberonee = (int) functionCallScope.get(Number1.getTokenText());
+                }catch (Exception e){
+                    ifGo=false;
+                    integerOrClassNode.setClassDef(Number1.getTokenText());
+                }
+                if (ifGo) {
+                    numberonee = (int) functionCallScope.get(Number1.getTokenText());
+                }
+
             }
             if (Number1.getTokenTag().equals("NUMBER")) {
                 numberonee = Integer.parseInt(Number1.getTokenText());
@@ -525,7 +577,8 @@ public class PoohInterpreter {
                 InnerNode exprmoretermmoreterm = (InnerNode) exprmoreterm.getChild(1).getChild(1);
                 exprmoreterm = exprmoretermmoreterm;
             }
-            arglisttotal.add(numberonee);
+            integerOrClassNode.setNumber(numberonee);
+            arglisttotal.add(integerOrClassNode);
             try {
                 LeafNode ifCOMMA = (LeafNode) arglist.getChild(1).getChild(0);
             } catch (Exception e) {
@@ -567,9 +620,7 @@ public class PoohInterpreter {
         String IdName = ID.getTokenText();
         InnerNode classDef =(InnerNode)globalScope.get(IdName);
         Map<String, Object> h = new HashMap<>();
-        h.putAll(extendScope);
         classFields(classDef,h);
-        int a=1;
         globalScope.put(leftID,new ClassNode((InnerNode)globalScope.get(IdName),h));
         return 0;
     }
