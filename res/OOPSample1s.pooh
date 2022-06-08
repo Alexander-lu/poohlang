@@ -1,20 +1,33 @@
-class Counter {
-  n = 0
+class Account {
+  balance = 0
 
-  func setN ( newN ) {
-    n = newN
+  func getBalance ( ) {
+    return balance
+  }
+
+  func setBalance ( amount ) {
+    balance = amount
     return -1
   }
 
-  func count ( ) {
-    n = n + 1
-    return n
+  func transfer ( thatAccount , amount ) {
+    thatBalance = call thatAccount.getBalance ( ) + amount
+    call thatAccount.setBalance ( thatBalance )
+    balance = balance + call negate ( amount )
+    return -1
+  }
+
+  func negate ( n ) {
+    val = 0
+    sum = val + n
+    while ( 0 < sum ) {
+      val = val + -1
+      sum = val + n
+    }
+    return val
   }
 }
 
-counter1 = new Counter ( )
-print call counter1.count ( )
-print call counter1.count ( )
-counter2 = new Counter ( )
-print call counter2.count ( )
-print call counter1.count ( )
+accountA = new Account ( )
+accountB = new Account ( )
+call accountA.transfer ( accountB , 10 )
