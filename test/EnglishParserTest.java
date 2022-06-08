@@ -92,5 +92,4 @@ public class EnglishParserTest {
     actual = PrintHelper.astToString(root).replaceAll("\\r\\n?", "\n").trim();
     assertEquals(expected, actual);
   }
-
 }

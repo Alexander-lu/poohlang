@@ -1,0 +1,20 @@
+class Counter {
+  n = 0
+
+  func setN ( newN ) {
+    n = newN
+    return -1
+  }
+
+  func count ( ) {
+    n = n + 1
+    return n
+  }
+}
+
+counter1 = new Counter ( )
+print call counter1.count ( )
+print call counter1.count ( )
+counter2 = new Counter ( )
+print call counter2.count ( )
+print call counter1.count ( )

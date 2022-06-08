@@ -24,5 +24,13 @@ class PoohParserTest {
     var actual = PrintHelper.astToString(root).replaceAll("\\r\\n?", "\n").trim();
     assertEquals(expected, actual);
   }
-
+  @Test
+  void showASTNode() {
+    var expected = TestHelper.readFromResourceFile("test.txt").trim();
+    var parser = new PoohParser();
+    var tokens = new PoohLexer().lex("OOPtest.pooh");
+    var root = parser.parse(tokens);
+    var actual = PrintHelper.astToString(root).replaceAll("\\r\\n?", "\n").trim();
+    assertEquals(expected, actual);
+  }
 }
