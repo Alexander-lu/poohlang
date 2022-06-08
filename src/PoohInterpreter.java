@@ -7,6 +7,9 @@ import javax.imageio.plugins.tiff.TIFFDirectory;
 import java.util.*;
 
 public class PoohInterpreter {
+    //保存所有类的源文件
+    Map<String, Object> classStore = new HashMap<>();
+    //保存所有new出来的类对象
     Map<String, Object> globalScope = new HashMap<>();
     /**
      * 运行一个POOH程序
@@ -146,9 +149,10 @@ public class PoohInterpreter {
                 }
                 functionCall(child,functionScope,leftID);
             }
-        }else if (exprOrclosure.getAstName().equals("<closure>")) {
-            functionScope.put(leftID,exprOrclosure);
         }
+//        else if (exprOrclosure.getAstName().equals("<closure>")) {
+//            functionScope.put(leftID,exprOrclosure);
+//        }
     }
     public int assignExpr(InnerNode expr, Map<String, Object> extendScope){
         int count = 0;
