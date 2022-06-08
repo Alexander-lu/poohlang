@@ -133,23 +133,23 @@ public class PoohInterpreter {
     public void assignStatement(InnerNode assign,Map<String, Object> functionScope){
         LeafNode ID = (LeafNode) assign.getChild(0).getChild(0);
         String leftID = ID.getTokenText();
-        InnerNode exprOrclosure = (InnerNode) assign.getChild(1).getChild(0);
-        if (exprOrclosure.getAstName().equals("<expr>")) {
-            try {
-                InnerNode child = (InnerNode)exprOrclosure.getChild(0).getChild(0);
+        //拿到要赋值的变量名
+        InnerNode expr = (InnerNode) assign.getChild(1).getChild(0);
+       try {
+                InnerNode child = (InnerNode)expr.getChild(0).getChild(0);
             }catch (Exception e) {
-                functionScope.put(leftID,assignExpr(exprOrclosure,functionScope));
+                functionScope.put(leftID,assignExpr(expr,functionScope));
                 return;
             }
-            InnerNode child = (InnerNode)exprOrclosure.getChild(0).getChild(0);
+            InnerNode child = (InnerNode)expr.getChild(0).getChild(0);
             if (child.getAstName().equals("<function-call>")) {
-                if(exprOrclosure.getChild(1).getChild(0).getClass().getName().equals(LeafNode.class.getName())){
-                    functionScope.put(leftID,assignExpr(exprOrclosure,functionScope));
+                if(expr.getChild(1).getChild(0).getClass().getName().equals(LeafNode.class.getName())){
+                    functionScope.put(leftID,assignExpr(expr,functionScope));
                     return;
                 }
                 functionCall(child,functionScope,leftID);
             }
-        }
+
 //        else if (exprOrclosure.getAstName().equals("<closure>")) {
 //            functionScope.put(leftID,exprOrclosure);
 //        }
