@@ -1,0 +1,287 @@
+
+<program>
+├── <statement>
+│   └── <class-def>
+│       ├── KEYWORD_CLASS: class
+│       ├── ID: Account
+│       └── <class-body>
+│           ├── LEFT_BRACE: {
+│           ├── <class-fields>
+│           │   ├── <assign-statement>
+│           │   │   ├── <assign-prefix>
+│           │   │   │   ├── ID: balance
+│           │   │   │   └── EQUAL: =
+│           │   │   └── <assign-suffix>
+│           │   │       └── <expr>
+│           │   │           ├── <term>
+│           │   │           │   └── NUMBER: 0
+│           │   │           └── <more-terms>
+│           │   │               └── EPSILON
+│           │   └── <class-fields>
+│           │       └── EPSILON
+│           ├── <class-methods>
+│           │   ├── <function-def>
+│           │   │   ├── KEYWORD_FUNC: func
+│           │   │   ├── ID: getBalance
+│           │   │   ├── LEFT_PAR: (
+│           │   │   ├── <param-list>
+│           │   │   │   └── EPSILON
+│           │   │   ├── RIGHT_PAR: )
+│           │   │   ├── LEFT_BRACE: {
+│           │   │   ├── <function-statements>
+│           │   │   │   └── <return-statement>
+│           │   │   │       ├── KEYWORD_RETURN: return
+│           │   │   │       └── <expr>
+│           │   │   │           ├── <term>
+│           │   │   │           │   └── ID: balance
+│           │   │   │           └── <more-terms>
+│           │   │   │               └── EPSILON
+│           │   │   └── RIGHT_BRACE: }
+│           │   └── <class-methods>
+│           │       ├── <function-def>
+│           │       │   ├── KEYWORD_FUNC: func
+│           │       │   ├── ID: setBalance
+│           │       │   ├── LEFT_PAR: (
+│           │       │   ├── <param-list>
+│           │       │   │   ├── ID: amount
+│           │       │   │   └── <more-params>
+│           │       │   │       └── EPSILON
+│           │       │   ├── RIGHT_PAR: )
+│           │       │   ├── LEFT_BRACE: {
+│           │       │   ├── <function-statements>
+│           │       │   │   ├── <program>
+│           │       │   │   │   ├── <statement>
+│           │       │   │   │   │   └── <assign-statement>
+│           │       │   │   │   │       ├── <assign-prefix>
+│           │       │   │   │   │       │   ├── ID: balance
+│           │       │   │   │   │       │   └── EQUAL: =
+│           │       │   │   │   │       └── <assign-suffix>
+│           │       │   │   │   │           └── <expr>
+│           │       │   │   │   │               ├── <term>
+│           │       │   │   │   │               │   └── ID: amount
+│           │       │   │   │   │               └── <more-terms>
+│           │       │   │   │   │                   └── EPSILON
+│           │       │   │   │   └── <program>
+│           │       │   │   │       └── EPSILON
+│           │       │   │   └── <return-statement>
+│           │       │   │       ├── KEYWORD_RETURN: return
+│           │       │   │       └── <expr>
+│           │       │   │           ├── <term>
+│           │       │   │           │   └── NUMBER: -1
+│           │       │   │           └── <more-terms>
+│           │       │   │               └── EPSILON
+│           │       │   └── RIGHT_BRACE: }
+│           │       └── <class-methods>
+│           │           ├── <function-def>
+│           │           │   ├── KEYWORD_FUNC: func
+│           │           │   ├── ID: transfer
+│           │           │   ├── LEFT_PAR: (
+│           │           │   ├── <param-list>
+│           │           │   │   ├── ID: thatAccount
+│           │           │   │   └── <more-params>
+│           │           │   │       ├── COMMA: ,
+│           │           │   │       └── <param-list>
+│           │           │   │           ├── ID: amount
+│           │           │   │           └── <more-params>
+│           │           │   │               └── EPSILON
+│           │           │   ├── RIGHT_PAR: )
+│           │           │   ├── LEFT_BRACE: {
+│           │           │   ├── <function-statements>
+│           │           │   │   ├── <program>
+│           │           │   │   │   ├── <statement>
+│           │           │   │   │   │   └── <assign-statement>
+│           │           │   │   │   │       ├── <assign-prefix>
+│           │           │   │   │   │       │   ├── ID: thatBalance
+│           │           │   │   │   │       │   └── EQUAL: =
+│           │           │   │   │   │       └── <assign-suffix>
+│           │           │   │   │   │           └── <expr>
+│           │           │   │   │   │               ├── <term>
+│           │           │   │   │   │               │   └── <function-call>
+│           │           │   │   │   │               │       ├── KEYWORD_CALL: call
+│           │           │   │   │   │               │       └── <function-call-suffix>
+│           │           │   │   │   │               │           ├── OBJ_METHOD: thatAccount.getBalance
+│           │           │   │   │   │               │           ├── LEFT_PAR: (
+│           │           │   │   │   │               │           ├── <arg-list>
+│           │           │   │   │   │               │           │   └── EPSILON
+│           │           │   │   │   │               │           └── RIGHT_PAR: )
+│           │           │   │   │   │               └── <more-terms>
+│           │           │   │   │   │                   ├── PLUS: +
+│           │           │   │   │   │                   └── <expr>
+│           │           │   │   │   │                       ├── <term>
+│           │           │   │   │   │                       │   └── ID: amount
+│           │           │   │   │   │                       └── <more-terms>
+│           │           │   │   │   │                           └── EPSILON
+│           │           │   │   │   └── <program>
+│           │           │   │   │       └── EPSILON
+│           │           │   │   └── <return-statement>
+│           │           │   │       ├── KEYWORD_RETURN: return
+│           │           │   │       └── <expr>
+│           │           │   │           ├── <term>
+│           │           │   │           │   └── NUMBER: -1
+│           │           │   │           └── <more-terms>
+│           │           │   │               └── EPSILON
+│           │           │   └── RIGHT_BRACE: }
+│           │           └── <class-methods>
+│           │               ├── <function-def>
+│           │               │   ├── KEYWORD_FUNC: func
+│           │               │   ├── ID: negate
+│           │               │   ├── LEFT_PAR: (
+│           │               │   ├── <param-list>
+│           │               │   │   ├── ID: n
+│           │               │   │   └── <more-params>
+│           │               │   │       └── EPSILON
+│           │               │   ├── RIGHT_PAR: )
+│           │               │   ├── LEFT_BRACE: {
+│           │               │   ├── <function-statements>
+│           │               │   │   ├── <program>
+│           │               │   │   │   ├── <statement>
+│           │               │   │   │   │   └── <assign-statement>
+│           │               │   │   │   │       ├── <assign-prefix>
+│           │               │   │   │   │       │   ├── ID: val
+│           │               │   │   │   │       │   └── EQUAL: =
+│           │               │   │   │   │       └── <assign-suffix>
+│           │               │   │   │   │           └── <expr>
+│           │               │   │   │   │               ├── <term>
+│           │               │   │   │   │               │   └── NUMBER: 0
+│           │               │   │   │   │               └── <more-terms>
+│           │               │   │   │   │                   └── EPSILON
+│           │               │   │   │   └── <program>
+│           │               │   │   │       ├── <statement>
+│           │               │   │   │       │   └── <assign-statement>
+│           │               │   │   │       │       ├── <assign-prefix>
+│           │               │   │   │       │       │   ├── ID: sum
+│           │               │   │   │       │       │   └── EQUAL: =
+│           │               │   │   │       │       └── <assign-suffix>
+│           │               │   │   │       │           └── <expr>
+│           │               │   │   │       │               ├── <term>
+│           │               │   │   │       │               │   └── ID: val
+│           │               │   │   │       │               └── <more-terms>
+│           │               │   │   │       │                   ├── PLUS: +
+│           │               │   │   │       │                   └── <expr>
+│           │               │   │   │       │                       ├── <term>
+│           │               │   │   │       │                       │   └── ID: n
+│           │               │   │   │       │                       └── <more-terms>
+│           │               │   │   │       │                           └── EPSILON
+│           │               │   │   │       └── <program>
+│           │               │   │   │           ├── <statement>
+│           │               │   │   │           │   └── <while-statement>
+│           │               │   │   │           │       ├── KEYWORD_WHILE: while
+│           │               │   │   │           │       ├── LEFT_PAR: (
+│           │               │   │   │           │       ├── <expr>
+│           │               │   │   │           │       │   ├── <term>
+│           │               │   │   │           │       │   │   └── NUMBER: 0
+│           │               │   │   │           │       │   └── <more-terms>
+│           │               │   │   │           │       │       ├── LESS_THAN: <
+│           │               │   │   │           │       │       └── <term>
+│           │               │   │   │           │       │           └── ID: sum
+│           │               │   │   │           │       ├── RIGHT_PAR: )
+│           │               │   │   │           │       └── <block>
+│           │               │   │   │           │           ├── LEFT_BRACE: {
+│           │               │   │   │           │           ├── <program>
+│           │               │   │   │           │           │   ├── <statement>
+│           │               │   │   │           │           │   │   └── <assign-statement>
+│           │               │   │   │           │           │   │       ├── <assign-prefix>
+│           │               │   │   │           │           │   │       │   ├── ID: val
+│           │               │   │   │           │           │   │       │   └── EQUAL: =
+│           │               │   │   │           │           │   │       └── <assign-suffix>
+│           │               │   │   │           │           │   │           └── <expr>
+│           │               │   │   │           │           │   │               ├── <term>
+│           │               │   │   │           │           │   │               │   └── ID: val
+│           │               │   │   │           │           │   │               └── <more-terms>
+│           │               │   │   │           │           │   │                   ├── PLUS: +
+│           │               │   │   │           │           │   │                   └── <expr>
+│           │               │   │   │           │           │   │                       ├── <term>
+│           │               │   │   │           │           │   │                       │   └── NUMBER: -1
+│           │               │   │   │           │           │   │                       └── <more-terms>
+│           │               │   │   │           │           │   │                           └── EPSILON
+│           │               │   │   │           │           │   └── <program>
+│           │               │   │   │           │           │       ├── <statement>
+│           │               │   │   │           │           │       │   └── <assign-statement>
+│           │               │   │   │           │           │       │       ├── <assign-prefix>
+│           │               │   │   │           │           │       │       │   ├── ID: sum
+│           │               │   │   │           │           │       │       │   └── EQUAL: =
+│           │               │   │   │           │           │       │       └── <assign-suffix>
+│           │               │   │   │           │           │       │           └── <expr>
+│           │               │   │   │           │           │       │               ├── <term>
+│           │               │   │   │           │           │       │               │   └── ID: val
+│           │               │   │   │           │           │       │               └── <more-terms>
+│           │               │   │   │           │           │       │                   ├── PLUS: +
+│           │               │   │   │           │           │       │                   └── <expr>
+│           │               │   │   │           │           │       │                       ├── <term>
+│           │               │   │   │           │           │       │                       │   └── ID: n
+│           │               │   │   │           │           │       │                       └── <more-terms>
+│           │               │   │   │           │           │       │                           └── EPSILON
+│           │               │   │   │           │           │       └── <program>
+│           │               │   │   │           │           │           └── EPSILON
+│           │               │   │   │           │           └── RIGHT_BRACE: }
+│           │               │   │   │           └── <program>
+│           │               │   │   │               └── EPSILON
+│           │               │   │   └── <return-statement>
+│           │               │   │       ├── KEYWORD_RETURN: return
+│           │               │   │       └── <expr>
+│           │               │   │           ├── <term>
+│           │               │   │           │   └── ID: val
+│           │               │   │           └── <more-terms>
+│           │               │   │               └── EPSILON
+│           │               │   └── RIGHT_BRACE: }
+│           │               └── <class-methods>
+│           │                   └── EPSILON
+│           └── RIGHT_BRACE: }
+└── <program>
+    ├── <statement>
+    │   └── <assign-statement>
+    │       ├── <assign-prefix>
+    │       │   ├── ID: accountA
+    │       │   └── EQUAL: =
+    │       └── <assign-suffix>
+    │           └── <expr>
+    │               ├── <term>
+    │               │   └── <function-call>
+    │               │       ├── KEYWORD_NEW: new
+    │               │       ├── ID: Account
+    │               │       ├── LEFT_PAR: (
+    │               │       └── RIGHT_PAR: )
+    │               └── <more-terms>
+    │                   └── EPSILON
+    └── <program>
+        ├── <statement>
+        │   └── <assign-statement>
+        │       ├── <assign-prefix>
+        │       │   ├── ID: accountB
+        │       │   └── EQUAL: =
+        │       └── <assign-suffix>
+        │           └── <expr>
+        │               ├── <term>
+        │               │   └── <function-call>
+        │               │       ├── KEYWORD_NEW: new
+        │               │       ├── ID: Account
+        │               │       ├── LEFT_PAR: (
+        │               │       └── RIGHT_PAR: )
+        │               └── <more-terms>
+        │                   └── EPSILON
+        └── <program>
+            ├── <statement>
+            │   └── <function-call>
+            │       ├── KEYWORD_CALL: call
+            │       └── <function-call-suffix>
+            │           ├── OBJ_METHOD: accountA.transfer
+            │           ├── LEFT_PAR: (
+            │           ├── <arg-list>
+            │           │   ├── <expr>
+            │           │   │   ├── <term>
+            │           │   │   │   └── ID: accountB
+            │           │   │   └── <more-terms>
+            │           │   │       └── EPSILON
+            │           │   └── <more-args>
+            │           │       ├── COMMA: ,
+            │           │       └── <arg-list>
+            │           │           ├── <expr>
+            │           │           │   ├── <term>
+            │           │           │   │   └── NUMBER: 10
+            │           │           │   └── <more-terms>
+            │           │           │       └── EPSILON
+            │           │           └── <more-args>
+            │           │               └── EPSILON
+            │           └── RIGHT_PAR: )
+            └── <program>
+                └── EPSILON

@@ -12,8 +12,6 @@ class Account {
 
   func transfer ( thatAccount , amount ) {
     thatBalance = call thatAccount.getBalance ( ) + amount
-    call thatAccount.setBalance ( thatBalance )
-    balance = balance + call negate ( amount )
     return -1
   }
 
