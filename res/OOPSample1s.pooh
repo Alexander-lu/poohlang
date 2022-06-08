@@ -30,8 +30,4 @@ class Account {
 
 accountA = new Account ( )
 accountB = new Account ( )
-call accountA.setBalance ( 100 )
-call accountB.setBalance ( 20 )
 call accountA.transfer ( accountB , 10 )
-print call accountA.getBalance ( )
-print call accountB.getBalance ( )
