@@ -8,6 +8,14 @@ import java.util.List;
 import java.util.Map;
 
 public class FunctionCall {
+    /**
+     * 调用方法
+     * @param functionCall 方法的内容
+     * @param extendScope 成员变量集合
+     * @param leftID 方法的名字
+     * @param up 局部变量集合
+     * @return 和
+     */
     public static int functionCall(InnerNode functionCall, Map<String, Object> extendScope, String leftID, Map<String, Object> up) {
         LeafNode funcKeyWord = (LeafNode) functionCall.getChild(0);
         if (funcKeyWord.getTokenTag().equals("KEYWORD_CALL")) {

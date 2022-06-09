@@ -86,14 +86,4 @@ public class WhileStatement {
             }
         }
     }
-    public boolean exprLessOrEqual(InnerNode expr, Map<String, Object> extendScope){
-        LeafNode lessThanOrEqual = (LeafNode) expr.getChild(1).getChild(0);
-        if (lessThanOrEqual.getTokenTag().equals("LESS_THAN")) {
-            return true;
-        }
-        if (lessThanOrEqual.getTokenTag().equals("EQUAL_TEST")) {
-            return false;
-        }
-        return true;
-    }
 }
