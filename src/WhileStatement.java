@@ -43,9 +43,16 @@ public class WhileStatement {
         if (leftIdOrNumber == 2) {
             if (minddle == 1) {
                 if (RightIdOrNumber == 2) {
-                    while ((int) extendScope.get(leftstring) < rightNumber) {
-                        MainDoor.runTotal(statementChoices.getChild(4),extendScope,new HashMap<>());
+                    if (extendScope.containsKey(rightstring)) {
+                        while ((int) extendScope.get(leftstring) < rightNumber) {
+                            MainDoor.runTotal(statementChoices.getChild(4).getChild(1),extendScope,tempScope);
+                        }
+                    }else {
+                        while ((int) tempScope.get(leftstring) < rightNumber) {
+                            MainDoor.runTotal(statementChoices.getChild(4).getChild(1),extendScope,tempScope);
+                        }
                     }
+
                 }
                 if (RightIdOrNumber == 1) {
                     while ((int) extendScope.get(leftstring) < (int) extendScope.get(rightstring)) {
@@ -56,12 +63,12 @@ public class WhileStatement {
             if (minddle == 2) {
                 if (RightIdOrNumber == 2) {
                     while ((int) extendScope.get(leftstring) == rightNumber) {
-                        MainDoor.runTotal(statementChoices.getChild(4),extendScope,new HashMap<>());
+                        MainDoor.runTotal(statementChoices.getChild(4).getChild(1),extendScope,tempScope);
                     }
                 }
                 if (RightIdOrNumber == 1) {
                     while (extendScope.get(leftstring).equals(extendScope.get(rightstring))) {
-                        MainDoor.runTotal(statementChoices.getChild(4),extendScope,new HashMap<>());
+                        MainDoor.runTotal(statementChoices.getChild(4).getChild(1),extendScope,tempScope);
                     }
                 }
             }
@@ -81,7 +88,7 @@ public class WhileStatement {
             }
             if (minddle == 2) {
                 while (leftNumber == (int) extendScope.get(rightstring)) {
-                    MainDoor.runTotal(statementChoices.getChild(4),extendScope,new HashMap<>());
+                    MainDoor.runTotal(statementChoices.getChild(4).getChild(1),extendScope,tempScope);
                 }
             }
         }

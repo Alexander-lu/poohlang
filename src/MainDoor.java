@@ -26,7 +26,7 @@ public class MainDoor {
                     AssignStatement.assignStatement(statementChoices,classFieldsMembers,tempScope);
                 }
                 else if (statementChoices.getAstName().equals("<if-statement>")) {
-                    IfStatement.ifStatement(statementChoices,classFieldsMembers);
+                    IfStatement.ifStatement(statementChoices,classFieldsMembers,tempScope);
                 }
                 else if (statementChoices.getAstName().equals("<while-statement>")) {
                     WhileStatement.whileStatement(statementChoices,classFieldsMembers,tempScope);
