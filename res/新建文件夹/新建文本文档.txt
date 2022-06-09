@@ -1,0 +1,185 @@
+
+<program>
+├── <statement>
+│   └── <function-def>
+│       ├── KEYWORD_FUNC: func
+│       ├── ID: fib
+│       ├── LEFT_PAR: (
+│       ├── <param-list>
+│       │   ├── ID: n
+│       │   └── <more-params>
+│       │       └── EPSILON
+│       ├── RIGHT_PAR: )
+│       ├── LEFT_BRACE: {
+│       ├── <function-statements>
+│       │   ├── <program>
+│       │   │   ├── <statement>
+│       │   │   │   └── <assign-statement>
+│       │   │   │       ├── <assign-prefix>
+│       │   │   │       │   ├── ID: res
+│       │   │   │       │   └── EQUAL: =
+│       │   │   │       └── <assign-suffix>
+│       │   │   │           └── <expr>
+│       │   │   │               ├── <term>
+│       │   │   │               │   └── NUMBER: 0
+│       │   │   │               └── <more-terms>
+│       │   │   │                   └── EPSILON
+│       │   │   └── <program>
+│       │   │       ├── <statement>
+│       │   │       │   └── <if-statement>
+│       │   │       │       ├── KEYWORD_IF: if
+│       │   │       │       ├── LEFT_PAR: (
+│       │   │       │       ├── <expr>
+│       │   │       │       │   ├── <term>
+│       │   │       │       │   │   └── ID: n
+│       │   │       │       │   └── <more-terms>
+│       │   │       │       │       ├── EQUAL_TEST: ==
+│       │   │       │       │       └── <term>
+│       │   │       │       │           └── NUMBER: 0
+│       │   │       │       ├── RIGHT_PAR: )
+│       │   │       │       ├── <block>
+│       │   │       │       │   ├── LEFT_BRACE: {
+│       │   │       │       │   ├── <program>
+│       │   │       │       │   │   ├── <statement>
+│       │   │       │       │   │   │   └── <assign-statement>
+│       │   │       │       │   │   │       ├── <assign-prefix>
+│       │   │       │       │   │   │       │   ├── ID: res
+│       │   │       │       │   │   │       │   └── EQUAL: =
+│       │   │       │       │   │   │       └── <assign-suffix>
+│       │   │       │       │   │   │           └── <expr>
+│       │   │       │       │   │   │               ├── <term>
+│       │   │       │       │   │   │               │   └── NUMBER: 0
+│       │   │       │       │   │   │               └── <more-terms>
+│       │   │       │       │   │   │                   └── EPSILON
+│       │   │       │       │   │   └── <program>
+│       │   │       │       │   │       └── EPSILON
+│       │   │       │       │   └── RIGHT_BRACE: }
+│       │   │       │       ├── KEYWORD_ELSE: else
+│       │   │       │       └── <block>
+│       │   │       │           ├── LEFT_BRACE: {
+│       │   │       │           ├── <program>
+│       │   │       │           │   ├── <statement>
+│       │   │       │           │   │   └── <if-statement>
+│       │   │       │           │   │       ├── KEYWORD_IF: if
+│       │   │       │           │   │       ├── LEFT_PAR: (
+│       │   │       │           │   │       ├── <expr>
+│       │   │       │           │   │       │   ├── <term>
+│       │   │       │           │   │       │   │   └── ID: n
+│       │   │       │           │   │       │   └── <more-terms>
+│       │   │       │           │   │       │       ├── EQUAL_TEST: ==
+│       │   │       │           │   │       │       └── <term>
+│       │   │       │           │   │       │           └── NUMBER: 1
+│       │   │       │           │   │       ├── RIGHT_PAR: )
+│       │   │       │           │   │       ├── <block>
+│       │   │       │           │   │       │   ├── LEFT_BRACE: {
+│       │   │       │           │   │       │   ├── <program>
+│       │   │       │           │   │       │   │   ├── <statement>
+│       │   │       │           │   │       │   │   │   └── <assign-statement>
+│       │   │       │           │   │       │   │   │       ├── <assign-prefix>
+│       │   │       │           │   │       │   │   │       │   ├── ID: res
+│       │   │       │           │   │       │   │   │       │   └── EQUAL: =
+│       │   │       │           │   │       │   │   │       └── <assign-suffix>
+│       │   │       │           │   │       │   │   │           └── <expr>
+│       │   │       │           │   │       │   │   │               ├── <term>
+│       │   │       │           │   │       │   │   │               │   └── NUMBER: 1
+│       │   │       │           │   │       │   │   │               └── <more-terms>
+│       │   │       │           │   │       │   │   │                   └── EPSILON
+│       │   │       │           │   │       │   │   └── <program>
+│       │   │       │           │   │       │   │       └── EPSILON
+│       │   │       │           │   │       │   └── RIGHT_BRACE: }
+│       │   │       │           │   │       ├── KEYWORD_ELSE: else
+│       │   │       │           │   │       └── <block>
+│       │   │       │           │   │           ├── LEFT_BRACE: {
+│       │   │       │           │   │           ├── <program>
+│       │   │       │           │   │           │   ├── <statement>
+│       │   │       │           │   │           │   │   └── <assign-statement>
+│       │   │       │           │   │           │   │       ├── <assign-prefix>
+│       │   │       │           │   │           │   │       │   ├── ID: res
+│       │   │       │           │   │           │   │       │   └── EQUAL: =
+│       │   │       │           │   │           │   │       └── <assign-suffix>
+│       │   │       │           │   │           │   │           └── <expr>
+│       │   │       │           │   │           │   │               ├── <term>
+│       │   │       │           │   │           │   │               │   └── <function-call>
+│       │   │       │           │   │           │   │               │       ├── KEYWORD_CALL: call
+│       │   │       │           │   │           │   │               │       └── <function-call-suffix>
+│       │   │       │           │   │           │   │               │           ├── ID: fib
+│       │   │       │           │   │           │   │               │           ├── LEFT_PAR: (
+│       │   │       │           │   │           │   │               │           ├── <arg-list>
+│       │   │       │           │   │           │   │               │           │   ├── <expr>
+│       │   │       │           │   │           │   │               │           │   │   ├── <term>
+│       │   │       │           │   │           │   │               │           │   │   │   └── ID: n
+│       │   │       │           │   │           │   │               │           │   │   └── <more-terms>
+│       │   │       │           │   │           │   │               │           │   │       ├── PLUS: +
+│       │   │       │           │   │           │   │               │           │   │       └── <expr>
+│       │   │       │           │   │           │   │               │           │   │           ├── <term>
+│       │   │       │           │   │           │   │               │           │   │           │   └── NUMBER: -1
+│       │   │       │           │   │           │   │               │           │   │           └── <more-terms>
+│       │   │       │           │   │           │   │               │           │   │               └── EPSILON
+│       │   │       │           │   │           │   │               │           │   └── <more-args>
+│       │   │       │           │   │           │   │               │           │       └── EPSILON
+│       │   │       │           │   │           │   │               │           └── RIGHT_PAR: )
+│       │   │       │           │   │           │   │               └── <more-terms>
+│       │   │       │           │   │           │   │                   ├── PLUS: +
+│       │   │       │           │   │           │   │                   └── <expr>
+│       │   │       │           │   │           │   │                       ├── <term>
+│       │   │       │           │   │           │   │                       │   └── <function-call>
+│       │   │       │           │   │           │   │                       │       ├── KEYWORD_CALL: call
+│       │   │       │           │   │           │   │                       │       └── <function-call-suffix>
+│       │   │       │           │   │           │   │                       │           ├── ID: fib
+│       │   │       │           │   │           │   │                       │           ├── LEFT_PAR: (
+│       │   │       │           │   │           │   │                       │           ├── <arg-list>
+│       │   │       │           │   │           │   │                       │           │   ├── <expr>
+│       │   │       │           │   │           │   │                       │           │   │   ├── <term>
+│       │   │       │           │   │           │   │                       │           │   │   │   └── ID: n
+│       │   │       │           │   │           │   │                       │           │   │   └── <more-terms>
+│       │   │       │           │   │           │   │                       │           │   │       ├── PLUS: +
+│       │   │       │           │   │           │   │                       │           │   │       └── <expr>
+│       │   │       │           │   │           │   │                       │           │   │           ├── <term>
+│       │   │       │           │   │           │   │                       │           │   │           │   └── NUMBER: -2
+│       │   │       │           │   │           │   │                       │           │   │           └── <more-terms>
+│       │   │       │           │   │           │   │                       │           │   │               └── EPSILON
+│       │   │       │           │   │           │   │                       │           │   └── <more-args>
+│       │   │       │           │   │           │   │                       │           │       └── EPSILON
+│       │   │       │           │   │           │   │                       │           └── RIGHT_PAR: )
+│       │   │       │           │   │           │   │                       └── <more-terms>
+│       │   │       │           │   │           │   │                           └── EPSILON
+│       │   │       │           │   │           │   └── <program>
+│       │   │       │           │   │           │       └── EPSILON
+│       │   │       │           │   │           └── RIGHT_BRACE: }
+│       │   │       │           │   └── <program>
+│       │   │       │           │       └── EPSILON
+│       │   │       │           └── RIGHT_BRACE: }
+│       │   │       └── <program>
+│       │   │           └── EPSILON
+│       │   └── <return-statement>
+│       │       ├── KEYWORD_RETURN: return
+│       │       └── <expr>
+│       │           ├── <term>
+│       │           │   └── ID: res
+│       │           └── <more-terms>
+│       │               └── EPSILON
+│       └── RIGHT_BRACE: }
+└── <program>
+    ├── <statement>
+    │   └── <print-statement>
+    │       ├── KEYWORD_PRINT: print
+    │       └── <expr>
+    │           ├── <term>
+    │           │   └── <function-call>
+    │           │       ├── KEYWORD_CALL: call
+    │           │       └── <function-call-suffix>
+    │           │           ├── ID: fib
+    │           │           ├── LEFT_PAR: (
+    │           │           ├── <arg-list>
+    │           │           │   ├── <expr>
+    │           │           │   │   ├── <term>
+    │           │           │   │   │   └── NUMBER: 7
+    │           │           │   │   └── <more-terms>
+    │           │           │   │       └── EPSILON
+    │           │           │   └── <more-args>
+    │           │           │       └── EPSILON
+    │           │           └── RIGHT_PAR: )
+    │           └── <more-terms>
+    │               └── EPSILON
+    └── <program>
+        └── EPSILON

@@ -28,7 +28,7 @@ class PoohParserTest {
   void showASTNode() {
     var expected = TestHelper.readFromResourceFile("test1.txt").trim();
     var parser = new PoohParser();
-    var tokens = new PoohLexer().lex("OOPSample2.pooh");
+    var tokens = new PoohLexer().lex("NestedScopeSample1.pooh");
     var root = parser.parse(tokens);
     var actual = PrintHelper.astToString(root).replaceAll("\\r\\n?", "\n").trim();
     assertEquals(expected, actual);
