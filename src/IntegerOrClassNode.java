@@ -29,4 +29,12 @@ public class IntegerOrClassNode {
     public void setNumber(int number) {
         this.number = number;
     }
+    public boolean ifa (){
+        if (classDef!=null){
+            if(number==-1|number==-2){
+                return true;
+            }
+        }
+        return false;
+    }
 }

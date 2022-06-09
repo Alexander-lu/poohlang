@@ -10,7 +10,7 @@ public class IfStatement {
         if (ifExpr(expr,functionScope,tempScope)) {
             MainDoor.runTotal(statementChoices.getChild(4).getChild(1),functionScope,tempScope);
         } else {
-            MainDoor.runTotal(statementChoices.getChild(6),functionScope,tempScope);
+            MainDoor.runTotal(statementChoices.getChild(6).getChild(1),functionScope,tempScope);
         }
     }
     public static boolean ifExpr(InnerNode expr, Map<String, Object> functionScope,Map<String, Object> tempScope){

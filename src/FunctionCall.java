@@ -70,6 +70,8 @@ public class FunctionCall {
                 }
                 if (ifGo) {
                     numberonee = (int) functionCallScope.get(Number1.getTokenText());
+                }else {
+                    numberonee =  (int) extrtendScope.get(Number1.getTokenText());
                 }
             }
             if (Number1.getTokenTag().equals("NUMBER")) {
@@ -141,12 +143,19 @@ public class FunctionCall {
                 if(arglisttotal.get(xiabiao).getClassDef()==null){
                     tempScope.put(ifEPSIlON.getTokenText(),arglisttotal.get(xiabiao).getNumber());
                 }else{
-                    if(tempScope.containsKey(ifEPSIlON.getTokenText())){
-                        newTempScope.putAll(tempScope);
-                        newTempScope.put(ifEPSIlON.getTokenText(),arglisttotal.get(xiabiao).getClassDef());
-                        ifffff=false;
-                    }else{
-                        tempScope.put(ifEPSIlON.getTokenText(),arglisttotal.get(xiabiao).getClassDef());
+                    if(arglisttotal.get(xiabiao).ifa()){
+                        int pre = (int) tempScope.get(ifEPSIlON.getTokenText());
+                        int after = pre +arglisttotal.get(xiabiao).getNumber();
+                        tempScope.put(ifEPSIlON.getTokenText(),after);
+                    }else {
+                        if(tempScope.containsKey(ifEPSIlON.getTokenText())){
+                            newTempScope.putAll(tempScope);
+                            newTempScope.put(ifEPSIlON.getTokenText(),arglisttotal.get(xiabiao).getClassDef());
+                            ifffff=false;
+                        }else{
+
+                            tempScope.put(ifEPSIlON.getTokenText(),arglisttotal.get(xiabiao).getClassDef());
+                        }
                     }
                 }
 
