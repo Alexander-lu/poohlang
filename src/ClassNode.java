@@ -3,6 +3,9 @@ import lib.ast.InnerNode;
 import java.util.Map;
 
 public class ClassNode {
+    /**
+     * 保存类的成员变量和方法
+     */
     private InnerNode classDEF;
     private Map<String,Object> fields;
 

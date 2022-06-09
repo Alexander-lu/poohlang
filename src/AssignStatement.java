@@ -2,10 +2,14 @@ import lib.ast.ASTNode;
 import lib.ast.EpsilonNode;
 import lib.ast.InnerNode;
 import lib.ast.LeafNode;
-
 import java.util.Map;
-
 public class AssignStatement {
+    /**
+     * 定义成员变量，已经定义类
+     * @param assign 定义的内容
+     * @param classFieldsMembers 成员变量集合
+     * @param temp 局部变量集合
+     */
     public static void assignStatement(InnerNode assign, Map<String, Object> classFieldsMembers, Map<String, Object> temp) {
         LeafNode ID = (LeafNode) assign.getChild(0).getChild(0);
         String leftID = ID.getTokenText();
@@ -42,6 +46,13 @@ public class AssignStatement {
         }
     }
 
+    /**
+     * 对Expr进行遍历，将和返回
+     * @param expr expr的内容
+     * @param classFieldsMembers 成员变量集合
+     * @param temp 局部变量集合
+     * @return 和
+     */
     public static int assignExpr(InnerNode expr, Map<String, Object> classFieldsMembers, Map<String, Object> temp) {
         int count = 0;
         ASTNode term1 = expr.getChild(0).getChild(0);
