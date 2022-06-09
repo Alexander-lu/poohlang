@@ -30,12 +30,12 @@ class PoohInterpreterTest {
   @Test
   void testNestedScope() {
     runTest("NestedScopeSample1.pooh", "NestedScopeSample1.out");
-    runTest("NestedScopeSample2.pooh", "NestedScopeSample2.out");
+//    runTest("NestedScopeSample2.pooh", "NestedScopeSample2.out");
   }
 
   @Test
   void testClosure() {
-    runTest("ClosureSample1.pooh", "ClosureSample1.out");
+//    runTest("ClosureSample1.pooh", "ClosureSample1.out");
     runTest("ClosureSample2.pooh", "ClosureSample2.out");
   }
 

@@ -33,7 +33,19 @@ public class FunctionCall {
         InnerNode funcDef = (InnerNode) extendScope.get(ID.getTokenText());
         if (funcDef == null) {
             InnerNode classDef=(InnerNode)JVM.classStore.get("Account");
-            funcDef = (InnerNode)funcCalFindMtd(classDef,ID.getTokenText());
+            if(classDef!=null){
+                funcDef = (InnerNode)funcCalFindMtd(classDef,ID.getTokenText());
+            }else{
+                boolean ifwwwww = true;
+                try {
+                    funcDef = (InnerNode) extrtendScope.get(ID.getTokenText());
+                }catch (Exception eww){
+                    return (int) extrtendScope.get(ID.getTokenText());
+                }
+                if (ifwwwww) {
+                    funcDef = (InnerNode) extrtendScope.get(ID.getTokenText());
+                }
+            }
         }
         Map<String, Object> functionCallScope = new HashMap<String, Object>();
         functionCallScope.putAll(extendScope);
@@ -103,12 +115,60 @@ public class FunctionCall {
             return functionDef(funcDef, functionCallScope, arglisttotal,extrtendScope);
         }
         if (funcDef.getAstName().equals("<closure>")) {
-//            return closure(funcDef, functionCallScope, arglisttotal,extrtendScope);
+            return Closure.closure(funcDef, functionCallScope, arglisttotal,extrtendScope);
         }
         if (funcDef.getAstName().equals("<function-call>")) {
             return functionCall(funcDef, functionCallScope,"",extrtendScope);
         }
         return 0;
+    }
+    public static int functionDef(InnerNode statementChoices, Map<String, Object> functionDefScope, List<IntegerOrClassNode> arglisttotal,Map<String, Object>tempScope){
+        //临时作用域tempScope
+        InnerNode paramlist = (InnerNode) statementChoices.getChild(3);
+        int xiabiao = 0;
+        Map<String, Object> newTempScope = new HashMap<>();
+        boolean ifffff = true;
+        while (true) {
+            try {
+                LeafNode ifEPSIlON = (LeafNode) paramlist.getChild(0);
+            } catch (Exception e) {
+                break;
+            }
+            LeafNode ifEPSIlON = (LeafNode) paramlist.getChild(0);
+            if (ifEPSIlON.getTokenTag().equals("epsilon")) {
+                break;
+            } else {
+                if(arglisttotal.get(xiabiao).getClassDef()==null){
+                    tempScope.put(ifEPSIlON.getTokenText(),arglisttotal.get(xiabiao).getNumber());
+                }else{
+                    if(tempScope.containsKey(ifEPSIlON.getTokenText())){
+                        newTempScope.putAll(tempScope);
+                        newTempScope.put(ifEPSIlON.getTokenText(),arglisttotal.get(xiabiao).getClassDef());
+                        ifffff=false;
+                    }else{
+                        tempScope.put(ifEPSIlON.getTokenText(),arglisttotal.get(xiabiao).getClassDef());
+                    }
+                }
+
+                xiabiao++;
+            }
+            try {
+                LeafNode ifCOMMACALL = (LeafNode) paramlist.getChild(1).getChild(0);
+            } catch (Exception e) {
+                break;
+            }
+            LeafNode ifCOMMACALL = (LeafNode) paramlist.getChild(1).getChild(0);
+            if (ifCOMMACALL.getTokenTag().equals("COMMA")) {
+                paramlist = (InnerNode) paramlist.getChild(1).getChild(1);
+            } else {
+                break;
+            }
+        }
+        if(ifffff){
+            return functionStatements((InnerNode) statementChoices.getChild(6), functionDefScope,tempScope);
+        }else {
+            return functionStatements((InnerNode) statementChoices.getChild(6), functionDefScope,newTempScope);
+        }
     }
     public static int funcCalSfxModeObjMtd(InnerNode funcCalSfx,Map<String, Object> up) {
         LeafNode ObjMethod = (LeafNode) funcCalSfx.getChild(0);
@@ -253,9 +313,38 @@ public class FunctionCall {
                 try {
                     count = (int) functionScope.get(exprtermIDorNumber.getTokenText());
                 }catch (Exception e){
-                    count = (int) tempScope.get(exprtermIDorNumber.getTokenText());
-//                    List<IntegerOrClassNode> arglisttotal = new ArrayList<IntegerOrClassNode>();
-//                    closure((InnerNode) functionScope.get(exprtermIDorNumber.getTokenText()),functionScope,arglisttotal,tempScope);
+                    if(functionScope.containsKey(exprtermIDorNumber.getTokenText())){
+                        boolean ifeee =true;
+                        try {
+                            count = (int) functionScope.get(exprtermIDorNumber.getTokenText());
+                        }catch (Exception ee){
+                            IntegerOrClassNode a = (IntegerOrClassNode) functionScope.get(exprtermIDorNumber.getTokenText());
+                            count = a.getNumber();
+                            ifeee=false;
+                        }
+                        if(ifeee){   count = (int) functionScope.get(exprtermIDorNumber.getTokenText());}
+                    }else{
+                        boolean ifeee =true;
+                        try {
+                            count = (int) tempScope.get(exprtermIDorNumber.getTokenText());
+                        }catch (Exception ee){
+                            boolean ifeeeeeee = true;
+                            try {
+                                IntegerOrClassNode a = (IntegerOrClassNode) tempScope.get(exprtermIDorNumber.getTokenText());
+                            }catch (Exception ex) {
+                                ifeeeeeee=false;
+                                InnerNode closure  =(InnerNode)tempScope.get(exprtermIDorNumber.getTokenText());
+                                count = Closure.closure(closure,functionScope,new ArrayList<>(),tempScope);
+                            }
+                            if(ifeeeeeee){
+                                IntegerOrClassNode a = (IntegerOrClassNode) tempScope.get(exprtermIDorNumber.getTokenText());
+                                count = a.getNumber();
+                            }
+
+                            ifeee=false;
+                        }
+                        if(ifeee){   count = (int) tempScope.get(exprtermIDorNumber.getTokenText());}
+                    }
                 }
             }
             if (exprtermIDorNumber.getTokenTag().equals("NUMBER")) {
@@ -294,52 +383,5 @@ public class FunctionCall {
         }
         return count;
     }
-    public static int functionDef(InnerNode statementChoices, Map<String, Object> functionDefScope, List<IntegerOrClassNode> arglisttotal,Map<String, Object>tempScope){
-        //临时作用域tempScope
-        InnerNode paramlist = (InnerNode) statementChoices.getChild(3);
-        int xiabiao = 0;
-        Map<String, Object> newTempScope = new HashMap<>();
-        boolean ifffff = true;
-        while (true) {
-            try {
-                LeafNode ifEPSIlON = (LeafNode) paramlist.getChild(0);
-            } catch (Exception e) {
-                break;
-            }
-            LeafNode ifEPSIlON = (LeafNode) paramlist.getChild(0);
-            if (ifEPSIlON.getTokenTag().equals("epsilon")) {
-                break;
-            } else {
-                if(arglisttotal.get(xiabiao).getClassDef()==null){
-                    tempScope.put(ifEPSIlON.getTokenText(),arglisttotal.get(xiabiao).getNumber());
-                }else{
-                    if(tempScope.containsKey(ifEPSIlON.getTokenText())){
-                        newTempScope.putAll(tempScope);
-                        newTempScope.put(ifEPSIlON.getTokenText(),arglisttotal.get(xiabiao).getClassDef());
-                        ifffff=false;
-                    }else{
-                        tempScope.put(ifEPSIlON.getTokenText(),arglisttotal.get(xiabiao).getClassDef());
-                    }
-                }
 
-                xiabiao++;
-            }
-            try {
-                LeafNode ifCOMMACALL = (LeafNode) paramlist.getChild(1).getChild(0);
-            } catch (Exception e) {
-                break;
-            }
-            LeafNode ifCOMMACALL = (LeafNode) paramlist.getChild(1).getChild(0);
-            if (ifCOMMACALL.getTokenTag().equals("COMMA")) {
-                paramlist = (InnerNode) paramlist.getChild(1).getChild(1);
-            } else {
-                break;
-            }
-        }
-        if(ifffff){
-            return functionStatements((InnerNode) statementChoices.getChild(6), functionDefScope,tempScope);
-        }else {
-            return functionStatements((InnerNode) statementChoices.getChild(6), functionDefScope,newTempScope);
-        }
-    }
 }

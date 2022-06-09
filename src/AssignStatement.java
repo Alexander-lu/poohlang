@@ -5,7 +5,7 @@ import lib.ast.LeafNode;
 import java.util.Map;
 public class AssignStatement {
     /**
-     * 定义成员变量，已经定义类
+     * 定义成员变量，以及定义类
      * @param assign 定义的内容
      * @param classFieldsMembers 成员变量集合
      * @param temp 局部变量集合
@@ -15,6 +15,12 @@ public class AssignStatement {
         String leftID = ID.getTokenText();
         //拿到要赋值的变量名leftID
         InnerNode expr = (InnerNode) assign.getChild(1).getChild(0);
+        InnerNode ifClosure=(InnerNode)expr;
+        if(ifClosure.getAstName().equals("<closure>")){
+            JVM.classStore.put(leftID,ifClosure);
+            return;
+        }
+        //保存Lambda/Closure到全局变量
         boolean ifNext = true;
         try {
         assign.getChild(1).getChild(0).getChild(0).getChild(0).getClass().getName();
@@ -44,6 +50,7 @@ public class AssignStatement {
                 temp.put(leftID, assignExpr(expr, classFieldsMembers, temp));
             }
         }
+        //定义Class或者定义变量
     }
 
     /**
