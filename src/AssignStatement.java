@@ -34,7 +34,7 @@ public class AssignStatement {
                 if (callOrNew.getTokenTag().equals("KEYWORD_NEW")) {
                     LeafNode className = (LeafNode) assign.getChild(1).getChild(0).getChild(0).getChild(0).getChild(1);
                     String classNameString = className.getTokenText();
-                    DefiningMemberVariablesOfClass.funcCalMode2(leftID, classNameString);
+//                    DefiningMemberVariablesOfClass.funcCalMode2(leftID, classNameString);
                 }else {
                     if (classFieldsMembers.containsKey(leftID)) {
                         classFieldsMembers.put(leftID, assignExpr(expr, classFieldsMembers, temp));

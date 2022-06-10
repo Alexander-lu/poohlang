@@ -1,0 +1,101 @@
+inc = func ( x ) { return x + 1 }
+func counter ( c ) {
+  f = func ( ) {
+    c = c + 1
+    print c
+    return c
+  }
+  return f
+}
+a = 9
+b = 12
+myScore = 80
+distinction = 85
+pass = 60
+failed = 0
+sum = -1 + -2 + -3 + -4
+sum = sum + 10 + 7
+sum = 0
+i = 1
+func mult ( m , n ) {
+  res = 0
+  while ( 0 < m ) {
+    res = res + n
+    m = m + -1
+  }
+  return res
+}
+func fib ( n ) {
+  res = 0
+  if ( n == 0 ) {
+    res = 0
+  } else {
+    if ( n == 1 ) {
+      res = 1
+    } else {
+      res = call fib ( n + -1 ) + call fib ( n + -2 )
+    }
+  }
+  return res
+}
+func bar ( m ) {
+  a = m + 1
+  a = a + a
+  return a
+}
+
+func foo ( n ) {
+  a = 10
+  b = call bar ( a )
+  print a
+  return b
+}
+class Counter {
+  n = 0
+
+  func setN ( newN ) {
+    n = newN
+    return -1
+  }
+
+  func count ( ) {
+    n = n + 1
+    return n
+  }
+}
+
+counter1 = new Counter ( )
+counter2 = new Counter ( )
+
+class Accountt {
+  balance = 0
+
+  func getBalance ( ) {
+    return balance
+  }
+
+  func setBalance ( amount ) {
+    balance = amount
+    return -1
+  }
+
+  func transfer ( thatAccount , amount ) {
+    thatBalance = call thatAccount.getBalance ( ) + amount
+    call thatAccount.setBalance ( thatBalance )
+    balance = balance + call negate ( amount )
+    return -1
+  }
+
+  func negate ( n ) {
+    val = 0
+    sum = val + n
+    while ( 0 < sum ) {
+      val = val + -1
+      sum = val + n
+    }
+    return val
+  }
+}
+
+accountC = new Accountt ( )
+accountD = new Accountt ( )

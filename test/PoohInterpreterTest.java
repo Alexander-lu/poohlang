@@ -6,7 +6,10 @@ import java.io.PrintStream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PoohInterpreterTest {
-
+  @Test
+  void findBUG() {
+    runTest("assign.pooh", "IfGrammar1.out");
+  }
   @Test
   void testIf() {
     runTest("IfGrammar1.pooh", "IfGrammar1.out");
