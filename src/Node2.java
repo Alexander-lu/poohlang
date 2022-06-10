@@ -1,7 +1,7 @@
 public class Node2 {
     private String 类名;
     private Integer 值;
-    private String status;
+    public String status;
     public Node2() {
     }
 
@@ -28,11 +28,6 @@ public class Node2 {
     public Integer get值() {
         return 值;
     }
-
-    public String getStatus() {
-        return status;
-    }
-
     public void set类名(String 类名) {
         this.类名 = 类名;
     }
@@ -41,7 +36,4 @@ public class Node2 {
         this.值 = 值;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
 }

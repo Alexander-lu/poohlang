@@ -87,12 +87,10 @@ public class Class2 {
         LeafNode ID = (LeafNode) funcCalSfx.getChild(0);
         Node3 node3 = classNode.获取闭包(ID.getTokenText());
         if (node3.status.equals("method")) {
-            return 0;
             return funcDef(node3, classNode, temp,className,closureName,argList);
         }
         if (node3.status.equals("closure")) {
-            return 0;
-//            return Closure.closure(funcDef, functionCallScope, arglisttotal,extrtendScope);
+            return closure(node3, classNode, temp,className,closureName,argList);
         }
     return 0;
     }
@@ -117,8 +115,9 @@ public class Class2 {
     public static List<Node2> getArgList(InnerNode funcCalSfx, Node1 classNode, Map<String, Object> temp, String className, String closureName) {
         InnerNode argList=(InnerNode)funcCalSfx.getChild(2);
         List<Node2> arglisttotal = new ArrayList<Node2>();
+        int b = 999;
         while (true) {
-            int b = 999;
+
             IntegerOrClassNode integerOrClassNode = new IntegerOrClassNode();
             if (argList.getChild(0).getClass().getName().equals(EpsilonNode.class.getName())) {
                 break;
@@ -163,6 +162,7 @@ public class Class2 {
             }
             if(b!=999){
                 Node2 newN = new Node2(b,"int");
+                arglisttotal.add(newN);
             }
             if(argList.getChild(1).getChild(0).getClass().getName().equals(EpsilonNode.class.getName())){
                 break;
@@ -173,7 +173,59 @@ public class Class2 {
         }
         return arglisttotal;
     }
-    public static int funcDef(Node3 funcCalSfx, Node1 classNode, Map<String, Object> temp, String className, String closureName,List<Node2> argList) {
-
+    public static int funcDef(Node3 node3, Node1 classNode, Map<String, Object> temp, String className, String closureName,List<Node2> argList) {
+       InnerNode  形参= node3.get形参();
+        int xiabiao = 0;
+        while (true) {
+            if (形参.getChild(0).getClass().getName().equals(EpsilonNode.class.getName())) {
+                break;
+            }
+            String ID = ((LeafNode) 形参.getChild(0)).getTokenText();
+                if(argList.get(xiabiao).status.equals("class")){
+                    temp.put(ID,argList.get(xiabiao).get类名());
+                }else {
+                    temp.put(ID,argList.get(xiabiao).get值());
+                }
+            if (形参.getChild(1).getChild(0).getClass().getName().equals(EpsilonNode.class.getName())) {
+                break;
+            }
+            形参=(InnerNode) 形参.getChild(1).getChild(1);
+            xiabiao++;
+        }
+       return functionStatements(node3.get方法体(),classNode,temp,className,closureName);
+    }
+    public static int functionStatements(InnerNode functionstatement,Node1 classNode, Map<String, Object> temp, String className, String closureName) {
+        List<ASTNode> children = functionstatement.getChildren();
+        if (children.size() == 1) {
+            return returnStatement((InnerNode) functionstatement.getChild(0),classNode,temp,className,closureName);
+        }else {
+            Class1.readASTNode(functionstatement.getChild(0), classNode,temp,className,closureName);
+            return returnStatement((InnerNode) functionstatement.getChild(1),classNode,temp,className,closureName);
+        }
+    }
+    public static int returnStatement(InnerNode returnStatement,Node1 classNode, Map<String, Object> temp, String className, String closureName) {
+        InnerNode expr = (InnerNode) returnStatement.getChild(1);
+       return assignExpr(expr,classNode,temp,className,closureName);
+    }
+    public static int closure(Node3 node3, Node1 classNode, Map<String, Object> temp, String className, String closureName,List<Node2> argList) {
+        InnerNode  形参= node3.getclosure形参();
+        int xiabiao = 0;
+        while (true) {
+            if (形参.getChild(0).getClass().getName().equals(EpsilonNode.class.getName())) {
+                break;
+            }
+            String ID = ((LeafNode) 形参.getChild(0)).getTokenText();
+            if(argList.get(xiabiao).status.equals("class")){
+                temp.put(ID,argList.get(xiabiao).get类名());
+            }else {
+                temp.put(ID,argList.get(xiabiao).get值());
+            }
+            if (形参.getChild(1).getChild(0).getClass().getName().equals(EpsilonNode.class.getName())) {
+                break;
+            }
+            形参=(InnerNode) 形参.getChild(1).getChild(1);
+            xiabiao++;
+        }
+        return functionStatements(node3.getclosure方法体(),classNode,temp,className,closureName);
     }
 }

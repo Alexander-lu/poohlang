@@ -16,4 +16,18 @@ public class Node3 {
         this.函数 = 函数;
         this.status = status;
     }
+
+    public InnerNode get形参() {
+        return (InnerNode) 函数.getChild(3);
+    }
+    public InnerNode getclosure形参() {
+        return (InnerNode) 函数.getChild(2);
+    }
+
+    public InnerNode get方法体() {
+        return (InnerNode) 函数.getChild(5);
+    }
+    public InnerNode getclosure方法体() {
+        return (InnerNode) 函数.getChild(4);
+    }
 }
