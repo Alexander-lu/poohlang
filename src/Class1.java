@@ -24,20 +24,21 @@ public class Class1 {
                     Class2.assign(statementChoices,classFieldsMembers,tempScope,className,closureName);
                 }
                 else if (statementChoices.getAstName().equals("<if-statement>")) {
-                    Class2.assign(statementChoices,classFieldsMembers,tempScope,className,closureName);
+                    IfStatement.ifStatement(statementChoices,classFieldsMembers,tempScope,className,closureName);
                 }
                 else if (statementChoices.getAstName().equals("<while-statement>")) {
-                    Class2.assign(statementChoices,classFieldsMembers,tempScope,className,closureName);
+                    WhileStatement.whileStatement(statementChoices,classFieldsMembers,tempScope,className,closureName);
                 }
                 else if (statementChoices.getAstName().equals("<print-statement>")) {
-                    Class2.assign(statementChoices,classFieldsMembers,tempScope,className,closureName);
+                    int printlnOut=Class2.assignExpr((InnerNode)statementChoices.getChild(1),classFieldsMembers,tempScope,className,closureName);
+                    System.out.println(printlnOut);
                 }
                 else if (statementChoices.getAstName().equals("<function-def>")) {
                     LeafNode ID = (LeafNode)statementChoices.getChild(1);
                     classFieldsMembers.添加闭包(ID.getTokenText(), new Node3(statementChoices, new HashMap<>(), "method"));
                 }
                 else if (statementChoices.getAstName().equals("<function-call>")) {
-                    Class2.assign(statementChoices,classFieldsMembers,tempScope,className,closureName);
+                    Class2.functionCall(statementChoices,classFieldsMembers,tempScope,className,closureName);
                 }
             }
         }

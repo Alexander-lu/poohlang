@@ -26,10 +26,10 @@ public class MainDoor {
                     AssignStatement.assignStatement(statementChoices,classFieldsMembers,tempScope);
                 }
                 else if (statementChoices.getAstName().equals("<if-statement>")) {
-                    IfStatement.ifStatement(statementChoices,classFieldsMembers,tempScope);
+//                    IfStatement.ifStatement(statementChoices,classFieldsMembers,tempScope);
                 }
                 else if (statementChoices.getAstName().equals("<while-statement>")) {
-                    WhileStatement.whileStatement(statementChoices,classFieldsMembers,tempScope);
+//                    WhileStatement.whileStatement(statementChoices,classFieldsMembers,tempScope);
                 }
                 else if (statementChoices.getAstName().equals("<print-statement>")) {
  System.out.println(AssignStatement.assignExpr((InnerNode)statementChoices.getChild(1),classFieldsMembers,tempScope));
@@ -39,7 +39,7 @@ public class MainDoor {
                     classFieldsMembers.put(ID.getTokenText(),statementChoices);
                 }
                 else if (statementChoices.getAstName().equals("<function-call>")) {
-                    FunctionCall.functionCall(statementChoices,classFieldsMembers,"",tempScope);
+//                    FunctionCall.functionCall(statementChoices,classFieldsMembers,"",tempScope);
                 }
             }
         }

@@ -57,5 +57,14 @@ public class Node1 {
     public void 添加内部类(String 类名, Node1 类) {
         类集合.put(类名,类);
     }
+    public Integer 获取成员变量值(String name){
+        return 变量集合.get(name).get值();
+    }
+    public Node3 获取闭包(String name){
+        return 闭包集合.get(name);
+    }
+    public Node1 获取内部类(String name){
+        return 类集合.get(name);
+    }
 }
 

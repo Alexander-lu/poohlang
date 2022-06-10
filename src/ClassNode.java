@@ -29,4 +29,5 @@ public class ClassNode {
     public Map<String, Object> getFields() {
         return fields;
     }
+
 }

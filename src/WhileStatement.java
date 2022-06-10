@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class WhileStatement {
-    public static void whileStatement(InnerNode statementChoices, Map<String, Object> extendScope,Map<String, Object>tempScope){
+    public static void whileStatement(InnerNode statementChoices, Node1 classNode, Map<String, Object> tempScope, String className, String closureName){
         int leftIdOrNumber = 0;
         int minddle = 0;
         int RightIdOrNumber = 0;
@@ -43,52 +43,75 @@ public class WhileStatement {
         if (leftIdOrNumber == 2) {
             if (minddle == 1) {
                 if (RightIdOrNumber == 2) {
-                    if (extendScope.containsKey(rightstring)) {
-                        while ((int) extendScope.get(leftstring) < rightNumber) {
-                            MainDoor.runTotal(statementChoices.getChild(4).getChild(1),extendScope,tempScope);
+                    if(classNode.get变量集合().containsKey(leftstring)){
+                        while (classNode.获取成员变量值(leftstring) < rightNumber) {
+                            Class1.readASTNode(statementChoices.getChild(4).getChild(1),classNode,tempScope,className,closureName);
                         }
                     }else {
                         while ((int) tempScope.get(leftstring) < rightNumber) {
-                            MainDoor.runTotal(statementChoices.getChild(4).getChild(1),extendScope,tempScope);
+                            Class1.readASTNode(statementChoices.getChild(4).getChild(1),classNode,tempScope,className,closureName);
                         }
                     }
-
                 }
                 if (RightIdOrNumber == 1) {
-                    while ((int) extendScope.get(leftstring) < (int) extendScope.get(rightstring)) {
-                        MainDoor.runTotal(statementChoices.getChild(4),extendScope,new HashMap<>());
+                    if(classNode.get变量集合().containsKey(leftstring)&classNode.get变量集合().containsKey(rightstring)){
+                        while (classNode.获取成员变量值(leftstring) < classNode.获取成员变量值(rightstring)) {
+                            Class1.readASTNode(statementChoices.getChild(4).getChild(1),classNode,tempScope,className,closureName);
+                        }
+                    }else {
+                        while ((int) tempScope.get(leftstring) < (int) tempScope.get(rightstring)) {
+                            Class1.readASTNode(statementChoices.getChild(4).getChild(1),classNode,tempScope,className,closureName);
+                        }
                     }
                 }
             }
             if (minddle == 2) {
                 if (RightIdOrNumber == 2) {
-                    while ((int) extendScope.get(leftstring) == rightNumber) {
-                        MainDoor.runTotal(statementChoices.getChild(4).getChild(1),extendScope,tempScope);
+                    if(classNode.get变量集合().containsKey(leftstring)){
+                        while (classNode.获取成员变量值(leftstring) == rightNumber) {
+                            Class1.readASTNode(statementChoices.getChild(4).getChild(1),classNode,tempScope,className,closureName);
+                        }
+                    }else {
+                        while ((int) tempScope.get(leftstring) == rightNumber) {
+                            Class1.readASTNode(statementChoices.getChild(4).getChild(1),classNode,tempScope,className,closureName);
+                        }
                     }
                 }
                 if (RightIdOrNumber == 1) {
-                    while (extendScope.get(leftstring).equals(extendScope.get(rightstring))) {
-                        MainDoor.runTotal(statementChoices.getChild(4).getChild(1),extendScope,tempScope);
+                    if(classNode.get变量集合().containsKey(leftstring)&classNode.get变量集合().containsKey(rightstring)){
+                        while (classNode.获取成员变量值(leftstring).equals(classNode.获取成员变量值(rightstring))) {
+                            Class1.readASTNode(statementChoices.getChild(4).getChild(1),classNode,tempScope,className,closureName);
+                        }
+                    }else {
+                        while ((int) tempScope.get(leftstring) == (int) tempScope.get(rightstring)) {
+                            Class1.readASTNode(statementChoices.getChild(4).getChild(1),classNode,tempScope,className,closureName);
+                        }
                     }
                 }
             }
         }
-        if (leftIdOrNumber == 1) {
+    if (leftIdOrNumber == 1) {
             if (minddle == 1) {
-                if (extendScope.containsKey(rightstring)) {
-                    while (leftNumber < (int) extendScope.get(rightstring)) {
-                        MainDoor.runTotal(statementChoices.getChild(4).getChild(1),extendScope,new HashMap<>());
+                if(classNode.get变量集合().containsKey(rightstring)){
+                    while (leftNumber < classNode.获取成员变量值(rightstring)) {
+                        Class1.readASTNode(statementChoices.getChild(4).getChild(1),classNode,tempScope,className,closureName);
                     }
                 }else {
                     while (leftNumber < (int) tempScope.get(rightstring)) {
-                        MainDoor.runTotal(statementChoices.getChild(4).getChild(1),extendScope,tempScope);
+                        Class1.readASTNode(statementChoices.getChild(4).getChild(1),classNode,tempScope,className,closureName);
                     }
                 }
 
             }
             if (minddle == 2) {
-                while (leftNumber == (int) extendScope.get(rightstring)) {
-                    MainDoor.runTotal(statementChoices.getChild(4).getChild(1),extendScope,tempScope);
+                if(classNode.get变量集合().containsKey(rightstring)){
+                    while (leftNumber == classNode.获取成员变量值(rightstring)) {
+                        Class1.readASTNode(statementChoices.getChild(4).getChild(1),classNode,tempScope,className,closureName);
+                    }
+                }else {
+                    while (leftNumber == (int) tempScope.get(rightstring)) {
+                        Class1.readASTNode(statementChoices.getChild(4).getChild(1),classNode,tempScope,className,closureName);
+                    }
                 }
             }
         }

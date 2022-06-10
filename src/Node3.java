@@ -4,7 +4,7 @@ import java.util.Map;
 public class Node3 {
     private InnerNode 函数;
     private Map<String,Node2> 变量集合;
-    private String status;
+    public String status;
 
     public Node3(InnerNode 函数, Map<String, Node2> 变量集合, String status) {
         this.函数 = 函数;
