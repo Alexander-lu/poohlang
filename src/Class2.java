@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class Class2 {
     public static void assign(InnerNode assign, Node1 classNode, Map<String, Object> temp, String className, String closureName) {
@@ -28,19 +29,38 @@ public class Class2 {
                     String classNameString = ((LeafNode) functionCall.getChild(1)).getTokenText();
                     DefiningMemberVariablesOfClass.funcCalMode2(classNode,leftID,classNameString,temp);
                 } else {
-                    //定义变量(FunctionCall Call ID)
-                    if (classNode.get变量集合().containsKey(leftID)) {
-                        classNode.添加成员变量(leftID, new Node2(assignExpr(expr, classNode, temp, className, closureName), "int"));
-                    } else {
-                        classNode.添加成员变量(leftID, new Node2(assignExpr(expr, classNode, temp, className, closureName), "int"));
+                    if (Pattern.matches("\\w*\\.\\w*", closureName)) {
+                        String[] split = closureName.split("\\.");
+                        String f=split[1];
+                        classNode.获取闭包(f).添加成员变量(leftID,new Node2(assignExpr(expr, classNode, temp, className, closureName), "int"));
                     }
+                    if (!closureName.equals("null")){
+                        temp.put(leftID,assignExpr(expr, classNode, temp, className, closureName));
+                    }else {
+                        if (classNode.status.equals(className)) {
+                            classNode.添加成员变量(leftID, new Node2(assignExpr(expr, classNode, temp, className, closureName), "int"));
+                        } else {
+                            classNode.获取内部类(className).添加成员变量(leftID, new Node2(assignExpr(expr, classNode, temp, className, closureName), "int"));
+                        }
+                    }
+                    //定义变量(FunctionCall Call ID)
                     }
                 }else {
                 //定义变量
-                if (classNode.get变量集合().containsKey(leftID)) {
-                    classNode.添加成员变量(leftID, new Node2(assignExpr(expr, classNode, temp, className, closureName), "int"));
-                } else {
-                    classNode.添加成员变量(leftID, new Node2(assignExpr(expr, classNode, temp, className, closureName), "int"));
+                if (Pattern.matches("\\w*\\.\\w*", closureName)) {
+                    String[] split = closureName.split("\\.");
+                    String f=split[1];
+                    classNode.获取闭包(f).添加成员变量(leftID,new Node2(assignExpr(expr, classNode, temp, className, closureName), "int"));
+                }else {
+                    if (!closureName.equals("null")){
+                        temp.put(leftID,assignExpr(expr, classNode, temp, className, closureName));
+                    }else {
+                        if (classNode.status.equals(className)) {
+                            classNode.添加成员变量(leftID, new Node2(assignExpr(expr, classNode, temp, className, closureName), "int"));
+                        } else {
+                            classNode.获取内部类(className).添加成员变量(leftID, new Node2(assignExpr(expr, classNode, temp, className, closureName), "int"));
+                        }
+                    }
                 }
                 }
             }
@@ -53,8 +73,23 @@ public class Class2 {
             if (numberOrId.getTokenTag().equals("ID")) {
                 if (classNode.get变量集合().containsKey(numberOrId.getTokenText())) {
                     count = classNode.get变量集合().get(numberOrId.getTokenText()).get值();
-                } else {
-                    count = (int) temp.get(numberOrId.getTokenText());
+                }else {
+                    if (Pattern.matches("\\w*\\.\\w*", closureName)) {
+                        String[] split = closureName.split("\\.");
+                        String f=split[1];
+                        if(classNode.获取闭包(f).有没有成员变量值(numberOrId.getTokenText())){
+                            count = classNode.获取闭包(f).获取成员变量值(numberOrId.getTokenText());
+                        }
+                    }else {
+                        if(temp.containsKey(numberOrId.getTokenText())){
+                            count = (int) temp.get(numberOrId.getTokenText());
+                        }else {
+                            if(classNode.获取闭包(numberOrId.getTokenText()).status.equals("closure")){
+                                closureName="closure."+numberOrId.getTokenText();
+                                count = closure(classNode.获取闭包(numberOrId.getTokenText()), classNode, temp,className,closureName,new ArrayList<>());
+                            }
+                        }
+                    }
                 }
             }
             if (numberOrId.getTokenTag().equals("NUMBER")) {
@@ -86,6 +121,7 @@ public class Class2 {
         List<Node2> argList = getArgList(funcCalSfx,classNode,temp,className,closureName);
         LeafNode ID = (LeafNode) funcCalSfx.getChild(0);
         Node3 node3 = classNode.获取闭包(ID.getTokenText());
+        closureName=ID.getTokenText();
         if (node3.status.equals("method")) {
             return funcDef(node3, classNode, temp,className,closureName,argList);
         }
@@ -155,7 +191,7 @@ public class Class2 {
                     }
                 }
                 if (exprmoretermsexper0.getTokenTag().equals("NUMBER")) {
-                    b+=(Integer.parseInt(Number1.getTokenText()));
+                    b+=(Integer.parseInt(exprmoretermsexper0.getTokenText()));
                 }
                 InnerNode exprmoretermmoreterm = (InnerNode) exprmoreterm.getChild(1).getChild(1);
                 exprmoreterm = exprmoretermmoreterm;

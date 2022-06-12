@@ -1,112 +1,79 @@
-
 <program>
 ├── <statement>
-│   └── <class-def>
-│       ├── KEYWORD_CLASS: class
-│       ├── ID: Counter
-│       └── <class-body>
-│           ├── LEFT_BRACE: {
-│           ├── <class-fields>
-│           │   ├── <assign-statement>
-│           │   │   ├── <assign-prefix>
-│           │   │   │   ├── ID: n
-│           │   │   │   └── EQUAL: =
-│           │   │   └── <assign-suffix>
-│           │   │       └── <expr>
-│           │   │           ├── <term>
-│           │   │           │   └── NUMBER: 0
-│           │   │           └── <more-terms>
-│           │   │               └── EPSILON
-│           │   └── <class-fields>
-│           │       └── EPSILON
-│           ├── <class-methods>
-│           │   ├── <function-def>
-│           │   │   ├── KEYWORD_FUNC: func
-│           │   │   ├── ID: setN
-│           │   │   ├── LEFT_PAR: (
-│           │   │   ├── <param-list>
-│           │   │   │   ├── ID: newN
-│           │   │   │   └── <more-params>
-│           │   │   │       └── EPSILON
-│           │   │   ├── RIGHT_PAR: )
-│           │   │   ├── LEFT_BRACE: {
-│           │   │   ├── <function-statements>
-│           │   │   │   ├── <program>
-│           │   │   │   │   ├── <statement>
-│           │   │   │   │   │   └── <assign-statement>
-│           │   │   │   │   │       ├── <assign-prefix>
-│           │   │   │   │   │       │   ├── ID: n
-│           │   │   │   │   │       │   └── EQUAL: =
-│           │   │   │   │   │       └── <assign-suffix>
-│           │   │   │   │   │           └── <expr>
-│           │   │   │   │   │               ├── <term>
-│           │   │   │   │   │               │   └── ID: newN
-│           │   │   │   │   │               └── <more-terms>
-│           │   │   │   │   │                   └── EPSILON
-│           │   │   │   │   └── <program>
-│           │   │   │   │       └── EPSILON
-│           │   │   │   └── <return-statement>
-│           │   │   │       ├── KEYWORD_RETURN: return
-│           │   │   │       └── <expr>
-│           │   │   │           ├── <term>
-│           │   │   │           │   └── NUMBER: -1
-│           │   │   │           └── <more-terms>
-│           │   │   │               └── EPSILON
-│           │   │   └── RIGHT_BRACE: }
-│           │   └── <class-methods>
-│           │       ├── <function-def>
-│           │       │   ├── KEYWORD_FUNC: func
-│           │       │   ├── ID: count
-│           │       │   ├── LEFT_PAR: (
-│           │       │   ├── <param-list>
-│           │       │   │   └── EPSILON
-│           │       │   ├── RIGHT_PAR: )
-│           │       │   ├── LEFT_BRACE: {
-│           │       │   ├── <function-statements>
-│           │       │   │   ├── <program>
-│           │       │   │   │   ├── <statement>
-│           │       │   │   │   │   └── <assign-statement>
-│           │       │   │   │   │       ├── <assign-prefix>
-│           │       │   │   │   │       │   ├── ID: n
-│           │       │   │   │   │       │   └── EQUAL: =
-│           │       │   │   │   │       └── <assign-suffix>
-│           │       │   │   │   │           └── <expr>
-│           │       │   │   │   │               ├── <term>
-│           │       │   │   │   │               │   └── ID: n
-│           │       │   │   │   │               └── <more-terms>
-│           │       │   │   │   │                   ├── PLUS: +
-│           │       │   │   │   │                   └── <expr>
-│           │       │   │   │   │                       ├── <term>
-│           │       │   │   │   │                       │   └── NUMBER: 1
-│           │       │   │   │   │                       └── <more-terms>
-│           │       │   │   │   │                           └── EPSILON
-│           │       │   │   │   └── <program>
-│           │       │   │   │       └── EPSILON
-│           │       │   │   └── <return-statement>
-│           │       │   │       ├── KEYWORD_RETURN: return
-│           │       │   │       └── <expr>
-│           │       │   │           ├── <term>
-│           │       │   │           │   └── ID: n
-│           │       │   │           └── <more-terms>
-│           │       │   │               └── EPSILON
-│           │       │   └── RIGHT_BRACE: }
-│           │       └── <class-methods>
-│           │           └── EPSILON
-│           └── RIGHT_BRACE: }
+│   └── <function-def>
+│       ├── KEYWORD_FUNC: func
+│       ├── ID: makeAdder
+│       ├── LEFT_PAR: (
+│       ├── <param-list>
+│       │   ├── ID: x
+│       │   └── <more-params>
+│       │       └── EPSILON
+│       ├── RIGHT_PAR: )
+│       ├── LEFT_BRACE: {
+│       ├── <function-statements>
+│       │   ├── <program>
+│       │   │   ├── <statement>
+│       │   │   │   └── <assign-statement>
+│       │   │   │       ├── <assign-prefix>
+│       │   │   │       │   ├── ID: adder
+│       │   │   │       │   └── EQUAL: =
+│       │   │   │       └── <assign-suffix>
+│       │   │   │           └── <closure>
+│       │   │   │               ├── KEYWORD_FUNC: func
+│       │   │   │               ├── LEFT_PAR: (
+│       │   │   │               ├── <param-list>
+│       │   │   │               │   ├── ID: n
+│       │   │   │               │   └── <more-params>
+│       │   │   │               │       └── EPSILON
+│       │   │   │               ├── RIGHT_PAR: )
+│       │   │   │               ├── LEFT_BRACE: {
+│       │   │   │               ├── <function-statements>
+│       │   │   │               │   └── <return-statement>
+│       │   │   │               │       ├── KEYWORD_RETURN: return
+│       │   │   │               │       └── <expr>
+│       │   │   │               │           ├── <term>
+│       │   │   │               │           │   └── ID: n
+│       │   │   │               │           └── <more-terms>
+│       │   │   │               │               ├── PLUS: +
+│       │   │   │               │               └── <expr>
+│       │   │   │               │                   ├── <term>
+│       │   │   │               │                   │   └── ID: x
+│       │   │   │               │                   └── <more-terms>
+│       │   │   │               │                       └── EPSILON
+│       │   │   │               └── RIGHT_BRACE: }
+│       │   │   └── <program>
+│       │   │       └── EPSILON
+│       │   └── <return-statement>
+│       │       ├── KEYWORD_RETURN: return
+│       │       └── <expr>
+│       │           ├── <term>
+│       │           │   └── ID: adder
+│       │           └── <more-terms>
+│       │               └── EPSILON
+│       └── RIGHT_BRACE: }
 └── <program>
     ├── <statement>
     │   └── <assign-statement>
     │       ├── <assign-prefix>
-    │       │   ├── ID: counter1
+    │       │   ├── ID: add5
     │       │   └── EQUAL: =
     │       └── <assign-suffix>
     │           └── <expr>
     │               ├── <term>
     │               │   └── <function-call>
-    │               │       ├── KEYWORD_NEW: new
-    │               │       ├── ID: Counter
-    │               │       ├── LEFT_PAR: (
-    │               │       └── RIGHT_PAR: )
+    │               │       ├── KEYWORD_CALL: call
+    │               │       └── <function-call-suffix>
+    │               │           ├── ID: makeAdder
+    │               │           ├── LEFT_PAR: (
+    │               │           ├── <arg-list>
+    │               │           │   ├── <expr>
+    │               │           │   │   ├── <term>
+    │               │           │   │   │   └── NUMBER: 5
+    │               │           │   │   └── <more-terms>
+    │               │           │   │       └── EPSILON
+    │               │           │   └── <more-args>
+    │               │           │       └── EPSILON
+    │               │           └── RIGHT_PAR: )
     │               └── <more-terms>
     │                   └── EPSILON
     └── <program>
@@ -118,124 +85,18 @@
         │           │   └── <function-call>
         │           │       ├── KEYWORD_CALL: call
         │           │       └── <function-call-suffix>
-        │           │           ├── OBJ_METHOD: counter1.count
+        │           │           ├── ID: add5
         │           │           ├── LEFT_PAR: (
         │           │           ├── <arg-list>
-        │           │           │   └── EPSILON
+        │           │           │   ├── <expr>
+        │           │           │   │   ├── <term>
+        │           │           │   │   │   └── NUMBER: -2
+        │           │           │   │   └── <more-terms>
+        │           │           │   │       └── EPSILON
+        │           │           │   └── <more-args>
+        │           │           │       └── EPSILON
         │           │           └── RIGHT_PAR: )
         │           └── <more-terms>
         │               └── EPSILON
         └── <program>
-            ├── <statement>
-            │   └── <print-statement>
-            │       ├── KEYWORD_PRINT: print
-            │       └── <expr>
-            │           ├── <term>
-            │           │   └── <function-call>
-            │           │       ├── KEYWORD_CALL: call
-            │           │       └── <function-call-suffix>
-            │           │           ├── OBJ_METHOD: counter1.count
-            │           │           ├── LEFT_PAR: (
-            │           │           ├── <arg-list>
-            │           │           │   └── EPSILON
-            │           │           └── RIGHT_PAR: )
-            │           └── <more-terms>
-            │               └── EPSILON
-            └── <program>
-                ├── <statement>
-                │   └── <assign-statement>
-                │       ├── <assign-prefix>
-                │       │   ├── ID: counter2
-                │       │   └── EQUAL: =
-                │       └── <assign-suffix>
-                │           └── <expr>
-                │               ├── <term>
-                │               │   └── <function-call>
-                │               │       ├── KEYWORD_NEW: new
-                │               │       ├── ID: Counter
-                │               │       ├── LEFT_PAR: (
-                │               │       └── RIGHT_PAR: )
-                │               └── <more-terms>
-                │                   └── EPSILON
-                └── <program>
-                    ├── <statement>
-                    │   └── <print-statement>
-                    │       ├── KEYWORD_PRINT: print
-                    │       └── <expr>
-                    │           ├── <term>
-                    │           │   └── <function-call>
-                    │           │       ├── KEYWORD_CALL: call
-                    │           │       └── <function-call-suffix>
-                    │           │           ├── OBJ_METHOD: counter2.count
-                    │           │           ├── LEFT_PAR: (
-                    │           │           ├── <arg-list>
-                    │           │           │   └── EPSILON
-                    │           │           └── RIGHT_PAR: )
-                    │           └── <more-terms>
-                    │               └── EPSILON
-                    └── <program>
-                        ├── <statement>
-                        │   └── <print-statement>
-                        │       ├── KEYWORD_PRINT: print
-                        │       └── <expr>
-                        │           ├── <term>
-                        │           │   └── <function-call>
-                        │           │       ├── KEYWORD_CALL: call
-                        │           │       └── <function-call-suffix>
-                        │           │           ├── OBJ_METHOD: counter1.count
-                        │           │           ├── LEFT_PAR: (
-                        │           │           ├── <arg-list>
-                        │           │           │   └── EPSILON
-                        │           │           └── RIGHT_PAR: )
-                        │           └── <more-terms>
-                        │               └── EPSILON
-                        └── <program>
-                            ├── <statement>
-                            │   └── <function-call>
-                            │       ├── KEYWORD_CALL: call
-                            │       └── <function-call-suffix>
-                            │           ├── ID: counter1.setN
-                            │           ├── LEFT_PAR: (
-                            │           ├── <arg-list>
-                            │           │   ├── <expr>
-                            │           │   │   ├── <term>
-                            │           │   │   │   └── NUMBER: 100
-                            │           │   │   └── <more-terms>
-                            │           │   │       └── EPSILON
-                            │           │   └── <more-args>
-                            │           │       └── EPSILON
-                            │           └── RIGHT_PAR: )
-                            └── <program>
-                                ├── <statement>
-                                │   └── <print-statement>
-                                │       ├── KEYWORD_PRINT: print
-                                │       └── <expr>
-                                │           ├── <term>
-                                │           │   └── <function-call>
-                                │           │       ├── KEYWORD_CALL: call
-                                │           │       └── <function-call-suffix>
-                                │           │           ├── OBJ_METHOD: counter1.count
-                                │           │           ├── LEFT_PAR: (
-                                │           │           ├── <arg-list>
-                                │           │           │   └── EPSILON
-                                │           │           └── RIGHT_PAR: )
-                                │           └── <more-terms>
-                                │               └── EPSILON
-                                └── <program>
-                                    ├── <statement>
-                                    │   └── <print-statement>
-                                    │       ├── KEYWORD_PRINT: print
-                                    │       └── <expr>
-                                    │           ├── <term>
-                                    │           │   └── <function-call>
-                                    │           │       ├── KEYWORD_CALL: call
-                                    │           │       └── <function-call-suffix>
-                                    │           │           ├── OBJ_METHOD: counter2.count
-                                    │           │           ├── LEFT_PAR: (
-                                    │           │           ├── <arg-list>
-                                    │           │           │   └── EPSILON
-                                    │           │           └── RIGHT_PAR: )
-                                    │           └── <more-terms>
-                                    │               └── EPSILON
-                                    └── <program>
-                                        └── EPSILON
+            └── EPSILON

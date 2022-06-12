@@ -9,7 +9,7 @@ public class Node1 {
     private Map<String, Node1> 类集合;
     private Map<String,Node3> 闭包集合;
     private Map<String,Node2> 变量集合;
-    private String status;
+    public String status;
 
     public Node1() {
     }

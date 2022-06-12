@@ -25,9 +25,21 @@ public class Node3 {
     }
 
     public InnerNode get方法体() {
-        return (InnerNode) 函数.getChild(5);
+        return (InnerNode) 函数.getChild(6);
     }
     public InnerNode getclosure方法体() {
-        return (InnerNode) 函数.getChild(4);
+        return (InnerNode) 函数.getChild(5);
+    }
+    public InnerNode get函数(){
+        return 函数;
+    }
+    public void 添加成员变量(String 变量名,Node2 变量值){
+        变量集合.put(变量名,变量值);
+    }
+    public Integer 获取成员变量值(String name){
+        return 变量集合.get(name).get值();
+    }
+    public boolean 有没有成员变量值(String name){
+        return 变量集合.containsKey(name);
     }
 }
