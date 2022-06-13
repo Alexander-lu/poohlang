@@ -1,10 +1,17 @@
-func mult ( m , n ) {
-  res = 0
-  while ( 0 < m ) {
-    res = res + n
-    m = m + -1
+class Counter {
+  n = 0
+
+  func setN ( newN ) {
+    n = newN
+    return -1
   }
-  return res
+
+  func count ( ) {
+    n = n + 1
+    return n
+  }
 }
 
-print call mult ( 3 , 5 )
+counter1 = new Counter ( )
+call counter1.setN ( 100 )
+print call counter1.count ( )

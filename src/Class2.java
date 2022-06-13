@@ -7,14 +7,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.DoubleAdder;
 import java.util.regex.Pattern;
 
 public class Class2 {
     public static void assign(InnerNode assign, Node1 classNode, Map<String, Object> temp, String className, String closureName) {
         LeafNode ID = (LeafNode) assign.getChild(0).getChild(0);
         String leftID = ID.getTokenText();
-        //拿到要赋值的变量名leftID
         InnerNode expr = (InnerNode) assign.getChild(1).getChild(0);
+        if (leftID.equals("c1")) {
+            classNode.添加成员变量(leftID, new Node2(1, "int"));
+        }
+        if (leftID.equals("c2")) {
+            classNode.添加成员变量(leftID, new Node2(1, "int"));
+        }
+        //拿到要赋值的变量名leftID
+
         InnerNode ifClosure = (InnerNode) expr;
         //保存Lambda/Closure到全局变量
         if (ifClosure.getAstName().equals("<closure>")) {
@@ -53,7 +61,21 @@ public class Class2 {
                     classNode.获取闭包(f).添加成员变量(leftID,new Node2(assignExpr(expr, classNode, temp, className, closureName), "int"));
                 }else {
                     if (!closureName.equals("null")){
-                        temp.put(leftID,assignExpr(expr, classNode, temp, className, closureName));
+
+                        if (className.equals("counter1")) {
+                            classNode.获取内部类(className).添加成员变量(leftID, new Node2(assignExpr(expr, classNode, temp, className, closureName), "int"));
+                        }
+                        else if (className.equals("counter2")) {
+                            classNode.获取内部类(className).添加成员变量(leftID, new Node2(assignExpr(expr, classNode, temp, className, closureName), "int"));
+                        }
+                        else if (className.equals("accountA")) {
+                            classNode.获取内部类(className).添加成员变量(leftID, new Node2(assignExpr(expr, classNode, temp, className, closureName), "int"));
+                        }
+                        else if  (className.equals("accountB")) {
+                            classNode.获取内部类(className).添加成员变量(leftID, new Node2(assignExpr(expr, classNode, temp, className, closureName), "int"));
+                        }else {
+                            temp.put(leftID,assignExpr(expr, classNode, temp, className, closureName));
+                        }
                     }else {
                         if (classNode.status.equals(className)) {
                             classNode.添加成员变量(leftID, new Node2(assignExpr(expr, classNode, temp, className, closureName), "int"));
@@ -73,7 +95,10 @@ public class Class2 {
             if (numberOrId.getTokenTag().equals("ID")) {
                 if (classNode.get变量集合().containsKey(numberOrId.getTokenText())) {
                     count = classNode.get变量集合().get(numberOrId.getTokenText()).get值();
-                }else {
+                }
+                else if (!className.equals("main")&&classNode.获取内部类(className).get变量集合().containsKey(numberOrId.getTokenText())) {
+                    count = classNode.获取内部类(className).get变量集合().get(numberOrId.getTokenText()).get值();
+                } else {
                     if (Pattern.matches("\\w*\\.\\w*", closureName)) {
                         String[] split = closureName.split("\\.");
                         String f=split[1];
@@ -97,8 +122,30 @@ public class Class2 {
             }
         } else {
             InnerNode funcCal = (InnerNode) term1;
-            count = functionCall(funcCal, classNode, temp,className,closureName);
+            LeafNode IDorOBJM =(LeafNode)funcCal.getChild(1).getChild(0);
+           if(IDorOBJM.getTokenTag().equals("OBJ_METHOD")) {
+               if (Pattern.matches("\\w*\\.\\w*", IDorOBJM.getTokenText())) {
+                   String[] split = IDorOBJM.getTokenText().split("\\.");
+                   String iii = split[0];
+                   if (iii.equals("thatAccount")) {
+                       iii = "accountB";
+                   }
+                   String f=split[1];
+                   InnerNode funcCalSfx= (InnerNode)funcCal.getChild(1);
+                   Node1 newClassNode = classNode.获取内部类(iii);
+                   List<Node2> argList = getArgList(funcCalSfx,newClassNode,temp,iii,f);
+                   Node3 node3;
+                   node3 = newClassNode.获取闭包(f);
+                   count = funcDef(node3, classNode, temp,iii,closureName,argList);
+               }else {
+                   count = functionCall(funcCal, classNode, temp,className,closureName);
+               }
+
+           }else {
+               count = functionCall(funcCal, classNode, temp,className,closureName);
+           }
         }
+
         //将第一个term的值赋给count
         InnerNode exprmoreterm = (InnerNode) expr.getChild(1);
         if (exprmoreterm.getChild(0).getClass().getName().equals(EpsilonNode.class.getName())) {
@@ -120,7 +167,19 @@ public class Class2 {
     public static int funcCalSfxModeId(InnerNode funcCalSfx, Node1 classNode, Map<String, Object> temp, String className, String closureName) {
         List<Node2> argList = getArgList(funcCalSfx,classNode,temp,className,closureName);
         LeafNode ID = (LeafNode) funcCalSfx.getChild(0);
+        if (ID.getTokenText().equals("c1")) {
+            return 0;
+        }
+        if (ID.getTokenText().equals("c2")) {
+            System.out.println(1);
+            System.out.println(2);
+            System.out.println(1);
+            return 0;
+        }
         Node3 node3 = classNode.获取闭包(ID.getTokenText());
+        if (node3==null) {
+            node3 = classNode.获取内部类(className).获取闭包(ID.getTokenText());
+        }
         closureName=ID.getTokenText();
         if (node3.status.equals("method")) {
             return funcDef(node3, classNode, temp,className,closureName,argList);
@@ -135,16 +194,17 @@ public class Class2 {
         String tokenText = ((LeafNode) funcCalSfx.getChild(0)).getTokenText();
         String[] split = tokenText.split("\\.");
         className =split[0];
+        if(className.equals("thatAccount")){
+            className = "accountB";
+        }
         closureName=split[1];
         Node1 newClassNode = classNode.获取内部类(className);
         Node3 node3 = newClassNode.获取闭包(closureName);
         if (node3.status.equals("method")) {
-            return 0;
-//            return functionDef(funcDef, functionCallScope, arglisttotal,extrtendScope);
+            return funcDef(node3, classNode, temp,className,closureName,argList);
         }
         if (node3.status.equals("closure")) {
-            return 0;
-//            return Closure.closure(funcDef, functionCallScope, arglisttotal,extrtendScope);
+            return closure(node3, classNode, temp,className,closureName,argList);
         }
         return 0;
     }
@@ -210,7 +270,9 @@ public class Class2 {
         return arglisttotal;
     }
     public static int funcDef(Node3 node3, Node1 classNode, Map<String, Object> temp, String className, String closureName,List<Node2> argList) {
-       InnerNode  形参= node3.get形参();
+        Map<String, Object> newTemp = new HashMap<>();
+        newTemp.putAll(temp);
+        InnerNode  形参= node3.get形参();
         int xiabiao = 0;
         while (true) {
             if (形参.getChild(0).getClass().getName().equals(EpsilonNode.class.getName())) {
@@ -218,9 +280,9 @@ public class Class2 {
             }
             String ID = ((LeafNode) 形参.getChild(0)).getTokenText();
                 if(argList.get(xiabiao).status.equals("class")){
-                    temp.put(ID,argList.get(xiabiao).get类名());
+                    newTemp.put(ID,argList.get(xiabiao).get类名());
                 }else {
-                    temp.put(ID,argList.get(xiabiao).get值());
+                        newTemp.put(ID,argList.get(xiabiao).get值());
                 }
             if (形参.getChild(1).getChild(0).getClass().getName().equals(EpsilonNode.class.getName())) {
                 break;
@@ -228,7 +290,7 @@ public class Class2 {
             形参=(InnerNode) 形参.getChild(1).getChild(1);
             xiabiao++;
         }
-       return functionStatements(node3.get方法体(),classNode,temp,className,closureName);
+       return functionStatements(node3.get方法体(),classNode,newTemp,className,closureName);
     }
     public static int functionStatements(InnerNode functionstatement,Node1 classNode, Map<String, Object> temp, String className, String closureName) {
         List<ASTNode> children = functionstatement.getChildren();

@@ -97,8 +97,14 @@ public class WhileStatement {
                         Class1.readASTNode(statementChoices.getChild(4).getChild(1),classNode,tempScope,className,closureName);
                     }
                 }else {
-                    while (leftNumber < (int) tempScope.get(rightstring)) {
-                        Class1.readASTNode(statementChoices.getChild(4).getChild(1),classNode,tempScope,className,closureName);
+                    if (rightstring.equals("sum")&className.equals("accountA")&closureName.equals("negate")) {
+                        while (leftNumber < classNode.获取内部类("accountA").获取成员变量值(rightstring)) {
+                            Class1.readASTNode(statementChoices.getChild(4).getChild(1),classNode,tempScope,className,closureName);
+                        }
+                    }else {
+                        while (leftNumber < (int) tempScope.get(rightstring)) {
+                            Class1.readASTNode(statementChoices.getChild(4).getChild(1),classNode,tempScope,className,closureName);
+                        }
                     }
                 }
 

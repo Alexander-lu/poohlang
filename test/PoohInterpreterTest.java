@@ -7,10 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PoohInterpreterTest {
   @Test
-  void findBUG() {
-    runTest("assign.pooh", "IfGrammar2.out");
-  }
-  @Test
   void testIf() {
     runTest("IfGrammar1.pooh", "IfGrammar1.out");
   }
@@ -38,7 +34,7 @@ class PoohInterpreterTest {
 
   @Test
   void testClosure() {
-//    runTest("ClosureSample1.pooh", "ClosureSample1.out");
+    runTest("ClosureSample1.pooh", "ClosureSample1.out");
     runTest("ClosureSample2.pooh", "ClosureSample2.out");
   }
 

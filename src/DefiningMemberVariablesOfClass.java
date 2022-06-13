@@ -28,7 +28,8 @@ public class DefiningMemberVariablesOfClass {
             node1.添加闭包(methodsIDName,new Node3((InnerNode)classMethods.getChild(0),"method"));
             classMethods= (InnerNode) classMethods.getChild(1);
         }
-        //讲成员变量添加到类对象的Map里
+        node1.添加成员变量(ID,new Node2(number,"int"));
+        //将成员变量添加到类对象的Map里
         classNode.添加内部类(leftID,node1);
     }
     public static int assignExpr(InnerNode expr, Node1 classNode, Map<String, Object> temp) {
